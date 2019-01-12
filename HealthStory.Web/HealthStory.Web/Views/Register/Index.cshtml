@@ -1,0 +1,43 @@
+﻿@model HealthStory.Web.Models.UserRegisterDto
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<section>
+    <h2>Register new account</h2>
+</section>
+<div class="container">
+    <form method="post" asp-action="Register">
+
+        <section class="row">
+            <label class="control-label">Email</label>
+            @Html.EditorFor(x => x.Email, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+
+        <section class="row">
+            <label class="control-label">Login</label>
+            @Html.EditorFor(x => x.Login, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+
+        <section class="row">
+            <label class="control-label">Password</label>
+            @Html.EditorFor(x => x.Password, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+
+        <section class="row">
+            <label class="control-label">Confirm Password</label>
+            @Html.EditorFor(x => x.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+        
+        <section class="row">
+            <button type="submit" class="btn btn-success">Save</button>
+        </section>
+
+    </form>
+</div>
+
+<div>
+    @Html.ActionLink("Back to list", "Index")
+</div>
+
