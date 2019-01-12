@@ -3,31 +3,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HealthStory.Web.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "SubDefs",
+                name: "AppUsers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
-                    Name = table.Column<string>(nullable: true),
-                    Max = table.Column<int>(nullable: false),
-                    Min = table.Column<int>(nullable: false),
-                    Unit = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SubDefs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(nullable: false)
+                    AppUserId = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
                     Login = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
@@ -35,7 +19,23 @@ namespace HealthStory.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserId);
+                    table.PrimaryKey("PK_AppUsers", x => x.AppUserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SubstanceInfo",
+                columns: table => new
+                {
+                    SubstanceDefinitionId = table.Column<int>(nullable: false)
+                        .Annotation("MySQL:AutoIncrement", true),
+                    Name = table.Column<string>(nullable: true),
+                    Max = table.Column<decimal>(nullable: false),
+                    Min = table.Column<decimal>(nullable: false),
+                    Unit = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubstanceInfo", x => x.SubstanceDefinitionId);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,18 +44,18 @@ namespace HealthStory.Web.Migrations
                 {
                     BloodTestId = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
-                    UserId = table.Column<int>(nullable: true),
-                    Date = table.Column<DateTime>(nullable: false)
+                    Date = table.Column<DateTime>(nullable: false),
+                    AppUserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BloodTests", x => x.BloodTestId);
                     table.ForeignKey(
-                        name: "FK_BloodTests_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_BloodTests_AppUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "AppUserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,8 +65,8 @@ namespace HealthStory.Web.Migrations
                     BloodTestSubstanceId = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
                     Value = table.Column<int>(nullable: false),
-                    BloodTestId = table.Column<int>(nullable: true),
-                    SubDefId = table.Column<int>(nullable: true)
+                    BloodTestId = table.Column<int>(nullable: false),
+                    SubstanceInfoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,19 +76,19 @@ namespace HealthStory.Web.Migrations
                         column: x => x.BloodTestId,
                         principalTable: "BloodTests",
                         principalColumn: "BloodTestId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BloodTestsSubstances_SubDefs_SubDefId",
-                        column: x => x.SubDefId,
-                        principalTable: "SubDefs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_BloodTestsSubstances_SubstanceInfo_SubstanceInfoId",
+                        column: x => x.SubstanceInfoId,
+                        principalTable: "SubstanceInfo",
+                        principalColumn: "SubstanceDefinitionId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BloodTests_UserId",
+                name: "IX_BloodTests_AppUserId",
                 table: "BloodTests",
-                column: "UserId");
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BloodTestsSubstances_BloodTestId",
@@ -96,9 +96,9 @@ namespace HealthStory.Web.Migrations
                 column: "BloodTestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BloodTestsSubstances_SubDefId",
+                name: "IX_BloodTestsSubstances_SubstanceInfoId",
                 table: "BloodTestsSubstances",
-                column: "SubDefId");
+                column: "SubstanceInfoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -110,10 +110,10 @@ namespace HealthStory.Web.Migrations
                 name: "BloodTests");
 
             migrationBuilder.DropTable(
-                name: "SubDefs");
+                name: "SubstanceInfo");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "AppUsers");
         }
     }
 }
