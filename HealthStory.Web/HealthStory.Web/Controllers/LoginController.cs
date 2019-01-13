@@ -22,7 +22,15 @@ namespace HealthStory.Web.Controllers
         public IActionResult Login(UserLoginDto model)
         {
             _loginResolver.Login(model);
-            return View("Index");
+
+            if (model.RulesAcceptation == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
     }

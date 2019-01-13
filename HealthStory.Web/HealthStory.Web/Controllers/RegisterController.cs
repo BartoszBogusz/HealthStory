@@ -22,7 +22,7 @@ namespace HealthStory.Web.Controllers
         public IActionResult Register(UserRegisterDto model)
         {
             _registerResolver.Register(model);
-            return View("Index");
+            return View("Index");        
         }
 
     }

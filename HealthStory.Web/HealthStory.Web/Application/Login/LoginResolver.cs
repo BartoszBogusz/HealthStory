@@ -32,9 +32,16 @@ namespace HealthStory.Web.Application.Login
                                          where a.Password == user.Password &&
                                          (a.Email == user.LoginOrEmail || a.Login == user.LoginOrEmail)
                                          select a).Any();
-     
+            if (areCredentialsCorrect)
+            {
+                user.RulesAcceptation = true;
+            }
+            else
+            {
+                user.RulesAcceptation = true;
+            }
 
-            _context.SaveChanges();
+            //_context.SaveChanges();
 
         }
     }
