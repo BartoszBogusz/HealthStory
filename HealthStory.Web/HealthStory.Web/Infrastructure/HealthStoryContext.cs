@@ -9,11 +9,6 @@ namespace HealthStory.Web.Infrastructure
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseMySQL("Server=localhost;Database=HealthStory;User Id=root; Password=admin;");
-        }
-
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<BloodTest> BloodTests { get; set; }
         public DbSet<BloodTestSubstance> BloodTestsSubstances { get; set; }

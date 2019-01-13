@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HealthStory.Web.Application.Register;
+﻿using HealthStory.Web.Application.Register;
 using HealthStory.Web.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,7 +35,7 @@ namespace HealthStory.Web
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<HealthStoryContext>(options =>
-                    options.UseMySQL("DataSource=HealthStory.db"));
+                    options.UseMySql("Server=localhost;Database=HealthStory;User Id=root; Password=admin;"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
