@@ -13,6 +13,7 @@ namespace HealthStory.Web.Infrastructure
         public DbSet<BloodTest> BloodTests { get; set; }
         public DbSet<BloodTestSubstance> BloodTestsSubstances { get; set; }
         public DbSet<SubstanceInfo> SubstanceInfo { get; set; }
+        public DbSet<Unit> Units { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +47,10 @@ namespace HealthStory.Web.Infrastructure
             // SubstanceDefinition
             modelBuilder.Entity<SubstanceInfo>()
                 .HasKey(x => x.SubstanceDefinitionId);
+
+            //Units
+            modelBuilder.Entity<Unit>()
+                .HasKey(x => x.UnitId);
         }
     }
 }

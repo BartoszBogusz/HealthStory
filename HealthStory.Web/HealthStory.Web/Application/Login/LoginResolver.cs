@@ -8,7 +8,7 @@ namespace HealthStory.Web.Application.Login
 {
     public interface ILoginResolver
     {
-        void Login(UserLoginDto user);
+        bool Login(UserLoginDto user);
     }
 
     public class LoginResolver : ILoginResolver
@@ -20,29 +20,19 @@ namespace HealthStory.Web.Application.Login
             _context = context;
         }
 
-        public void Login(UserLoginDto user)
+        public bool Login(UserLoginDto user)
         {
             if (user.LoginOrEmail == null || user.Password == null)
             {
-                return;
+                return false;
             }
-            
             
             var areCredentialsCorrect = (from a in _context.AppUsers
                                          where a.Password == user.Password &&
                                          (a.Email == user.LoginOrEmail || a.Login == user.LoginOrEmail)
                                          select a).Any();
-            if (areCredentialsCorrect)
-            {
-                user.RulesAcceptation = true;
-            }
-            else
-            {
-                user.RulesAcceptation = true;
-            }
 
-            //_context.SaveChanges();
-
-        }
+            return areCredentialsCorrect;
+        }     
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HealthStory.Web.Application.AdminUnits;
 using HealthStory.Web.Application.Login;
 using HealthStory.Web.Application.Register;
 using HealthStory.Web.Infrastructure;
@@ -37,6 +38,8 @@ namespace HealthStory.Web
 
             services.AddTransient<IRegisterResolver, RegisterResolver>();
             services.AddTransient<ILoginResolver, LoginResolver>();
+            services.AddTransient<IAdminUnitsResolver, AdminUnitsResolver>();
+
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

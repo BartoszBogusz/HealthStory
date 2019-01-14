@@ -23,7 +23,7 @@ namespace HealthStory.Web.Controllers
         {
             _loginResolver.Login(model);
 
-            if (model.RulesAcceptation == true)
+            if (_loginResolver.Login(model) == true)
             {
                 return RedirectToAction("Index", "Home");
             }
