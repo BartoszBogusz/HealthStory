@@ -44,9 +44,9 @@ namespace HealthStory.Web.Infrastructure
                 .WithMany(x => x.BloodTestSubstances)
                 .HasForeignKey(x => x.SubstanceInfoId);
 
-            // SubstanceDefinition
+            // SubstanceInfo
             modelBuilder.Entity<SubstanceInfo>()
-                .HasKey(x => x.SubstanceDefinitionId);
+                .HasKey(x => x.SubstanceInfoId);
 
             //Units
             modelBuilder.Entity<Unit>()

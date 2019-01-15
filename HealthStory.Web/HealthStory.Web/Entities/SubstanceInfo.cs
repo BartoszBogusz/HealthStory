@@ -9,7 +9,7 @@ namespace HealthStory.Web.Entities
             BloodTestSubstances = new HashSet<BloodTestSubstance>();
         }
         
-        public int SubstanceDefinitionId { get; set; }
+        public int SubstanceInfoId { get; set; }
         public string Name { get; set; }
         public decimal Max { get; set; }
         public decimal Min { get; set; }
