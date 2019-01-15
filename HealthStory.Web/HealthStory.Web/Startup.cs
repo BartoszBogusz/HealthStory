@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HealthStory.Web.Application.AdminUnits;
 using HealthStory.Web.Application.Login;
 using HealthStory.Web.Application.Register;
+using HealthStory.Web.Application.Units.SelectList;
 using HealthStory.Web.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,9 +40,8 @@ namespace HealthStory.Web
             services.AddTransient<IRegisterResolver, RegisterResolver>();
             services.AddTransient<ILoginResolver, LoginResolver>();
             services.AddTransient<IAdminUnitsResolver, AdminUnitsResolver>();
-
-
-
+            services.AddTransient<IUnitSelectListProvider, UnitSelectListProvider>();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<HealthStoryContext>(options =>

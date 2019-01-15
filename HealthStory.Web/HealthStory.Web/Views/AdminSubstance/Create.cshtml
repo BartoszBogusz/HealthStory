@@ -1,0 +1,41 @@
+﻿@model HealthStory.Web.Models.SubstanceDefinition.SubstanceDefinitionCreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<section>
+    <h2>Create new substance</h2>
+</section>
+<div class="container">
+    <form method="post" asp-action="Create">
+
+        <section class="row">
+            <label class="control-label">Name</label>
+            @Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+
+        <section class="row">
+            <label class="control-label">Max</label>
+            @Html.EditorFor(x => x.Max, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+
+        <section class="row">
+            <label class="control-label">Min</label>
+            @Html.EditorFor(x => x.Min, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+        
+        <section class="row">
+            <label class="control-label">Unit</label>
+            @Html.DropDownListFor(model => model.UnitId, Model.UnitSelectList, "-- Select unit --", new { @class = "form-control" })
+        </section>
+
+        <section class="row">
+            <button type="submit" class="btn btn-success">Save</button>
+        </section>
+
+    </form>
+</div>
+
+<div>
+    @Html.ActionLink("Back to list", "Index")
+</div>
