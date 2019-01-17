@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-
-namespace HealthStory.Web.Models.SubstanceDefinition
+﻿namespace HealthStory.Web.Models.SubstanceDefinition
 {
-    public class SubstanceDefinitionReadModel
+    public class SubstanceDefinitionReadViewModel
     {
         public string Name { get; set; }
         public decimal Max { get; set; }

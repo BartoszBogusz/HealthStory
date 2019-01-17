@@ -19,7 +19,8 @@ namespace HealthStory.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = _adminSubstanceInfoService.Get();
+            return View(model);
         }
 
         public IActionResult Create()

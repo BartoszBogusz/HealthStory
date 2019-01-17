@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HealthStory.Web.Models.SubstanceDefinition.SubstanceDefinitionReadModel>
+﻿@model IEnumerable<HealthStory.Web.Models.SubstanceDefinition.SubstanceDefinitionReadViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,6 +6,7 @@
 
 <h2>Substances List</h2>
 
+@Html.ActionLink("Create new substance info", "Create")
 <table class="table">
     <thead>
         <tr>
@@ -24,7 +25,7 @@
         </tr>
     </thead>
     <tbody>
-        @*@foreach (var item in Model)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -40,6 +41,6 @@
                     @Html.DisplayFor(modelItem => item.Unit)
                 </td>
             </tr>
-        }*@
+        }
     </tbody>
 </table>

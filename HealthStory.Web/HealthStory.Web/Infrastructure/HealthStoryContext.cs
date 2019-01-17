@@ -22,6 +22,9 @@ namespace HealthStory.Web.Infrastructure
             // AppUser
             modelBuilder.Entity<AppUser>()
                 .HasKey(x => x.AppUserId);
+            modelBuilder.Entity<AppUser>()
+                .Property(f => f.AppUserId)
+                .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<AppUser>()
                 .HasMany(x => x.BloodTests)
@@ -32,6 +35,9 @@ namespace HealthStory.Web.Infrastructure
             modelBuilder.Entity<BloodTest>()
                 .HasKey(x => x.BloodTestId);
             modelBuilder.Entity<BloodTest>()
+                .Property(f => f.BloodTestId)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<BloodTest>()
                 .HasMany(x => x.BloodTestSubstances)
                 .WithOne(x => x.BloodTest)
                 .HasForeignKey(x => x.BloodTestId);
@@ -40,6 +46,9 @@ namespace HealthStory.Web.Infrastructure
             modelBuilder.Entity<BloodTestSubstance>()
                 .HasKey(x => x.BloodTestSubstanceId);
             modelBuilder.Entity<BloodTestSubstance>()
+                .Property(f => f.BloodTestSubstanceId)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<BloodTestSubstance>()
                 .HasOne(x => x.SubstanceInfo)
                 .WithMany(x => x.BloodTestSubstances)
                 .HasForeignKey(x => x.SubstanceInfoId);
@@ -47,10 +56,20 @@ namespace HealthStory.Web.Infrastructure
             // SubstanceInfo
             modelBuilder.Entity<SubstanceInfo>()
                 .HasKey(x => x.SubstanceInfoId);
+            modelBuilder.Entity<SubstanceInfo>()
+                .Property(f => f.SubstanceInfoId)
+                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<SubstanceInfo>()
+                .HasOne(x => x.Unit)
+                .WithMany(x => x.SubstanceInfo)
+                .HasForeignKey(x => x.UnitId);
 
             //Units
             modelBuilder.Entity<Unit>()
                 .HasKey(x => x.UnitId);
+            modelBuilder.Entity<Unit>()
+                .Property(f => f.UnitId)
+                .ValueGeneratedOnAdd();
         }
     }
 }

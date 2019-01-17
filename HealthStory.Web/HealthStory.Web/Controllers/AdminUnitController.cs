@@ -7,12 +7,12 @@ using System.Linq;
 
 namespace HealthStory.Web.Controllers
 {
-    public class AdminUnitsController : Controller
+    public class AdminUnitController : Controller
     {
         private readonly IAdminUnitsResolver _adminUnitsResolver;
         private readonly HealthStoryContext _healthStoryContext;
 
-        public AdminUnitsController(IAdminUnitsResolver adminUnitsResolver, HealthStoryContext healthStoryContext)
+        public AdminUnitController(IAdminUnitsResolver adminUnitsResolver, HealthStoryContext healthStoryContext)
         {
             _adminUnitsResolver = adminUnitsResolver;
             _healthStoryContext = healthStoryContext;

@@ -80,9 +80,11 @@ namespace HealthStory.Web.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Unit");
+                    b.Property<int>("UnitId");
 
                     b.HasKey("SubstanceInfoId");
+
+                    b.HasIndex("UnitId");
 
                     b.ToTable("SubstanceInfo");
                 });
@@ -119,6 +121,14 @@ namespace HealthStory.Web.Migrations
                     b.HasOne("HealthStory.Web.Entities.SubstanceInfo", "SubstanceInfo")
                         .WithMany("BloodTestSubstances")
                         .HasForeignKey("SubstanceInfoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HealthStory.Web.Entities.SubstanceInfo", b =>
+                {
+                    b.HasOne("HealthStory.Web.Entities.Unit", "Unit")
+                        .WithMany("SubstanceInfo")
+                        .HasForeignKey("UnitId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

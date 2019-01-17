@@ -1,9 +1,10 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HealthStory.Web.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +13,7 @@ namespace HealthStory.Web.Migrations
                 columns: table => new
                 {
                     AppUserId = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Login = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true)
@@ -23,19 +24,17 @@ namespace HealthStory.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubstanceInfo",
+                name: "Units",
                 columns: table => new
                 {
-                    SubstanceDefinitionId = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                    UnitId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    Max = table.Column<decimal>(nullable: false),
-                    Min = table.Column<decimal>(nullable: false),
-                    Unit = table.Column<string>(nullable: true)
+                    Shortcut = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubstanceInfo", x => x.SubstanceDefinitionId);
+                    table.PrimaryKey("PK_Units", x => x.UnitId);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,7 +42,7 @@ namespace HealthStory.Web.Migrations
                 columns: table => new
                 {
                     BloodTestId = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Date = table.Column<DateTime>(nullable: false),
                     AppUserId = table.Column<int>(nullable: false)
                 },
@@ -59,11 +58,33 @@ namespace HealthStory.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SubstanceInfo",
+                columns: table => new
+                {
+                    SubstanceInfoId = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Max = table.Column<decimal>(nullable: false),
+                    Min = table.Column<decimal>(nullable: false),
+                    UnitId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SubstanceInfo", x => x.SubstanceInfoId);
+                    table.ForeignKey(
+                        name: "FK_SubstanceInfo_Units_UnitId",
+                        column: x => x.UnitId,
+                        principalTable: "Units",
+                        principalColumn: "UnitId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BloodTestsSubstances",
                 columns: table => new
                 {
                     BloodTestSubstanceId = table.Column<int>(nullable: false)
-                        .Annotation("MySQL:AutoIncrement", true),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Value = table.Column<int>(nullable: false),
                     BloodTestId = table.Column<int>(nullable: false),
                     SubstanceInfoId = table.Column<int>(nullable: false)
@@ -81,7 +102,7 @@ namespace HealthStory.Web.Migrations
                         name: "FK_BloodTestsSubstances_SubstanceInfo_SubstanceInfoId",
                         column: x => x.SubstanceInfoId,
                         principalTable: "SubstanceInfo",
-                        principalColumn: "SubstanceDefinitionId",
+                        principalColumn: "SubstanceInfoId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -99,6 +120,11 @@ namespace HealthStory.Web.Migrations
                 name: "IX_BloodTestsSubstances_SubstanceInfoId",
                 table: "BloodTestsSubstances",
                 column: "SubstanceInfoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubstanceInfo_UnitId",
+                table: "SubstanceInfo",
+                column: "UnitId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -114,6 +140,9 @@ namespace HealthStory.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "AppUsers");
+
+            migrationBuilder.DropTable(
+                name: "Units");
         }
     }
 }
