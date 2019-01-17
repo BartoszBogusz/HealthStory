@@ -1,28 +1,22 @@
 ﻿using HealthStory.Web.Application.AdminUnits;
-using HealthStory.Web.Infrastructure;
 using HealthStory.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace HealthStory.Web.Controllers
 {
     public class AdminUnitController : Controller
     {
-        private readonly IAdminUnitsResolver _adminUnitsResolver;
-        private readonly HealthStoryContext _healthStoryContext;
+        private readonly IAdminUnitService _adminUnitService;
 
-        public AdminUnitController(IAdminUnitsResolver adminUnitsResolver, HealthStoryContext healthStoryContext)
+        public AdminUnitController(IAdminUnitService adminUnitService)
         {
-            _adminUnitsResolver = adminUnitsResolver;
-            _healthStoryContext = healthStoryContext;
+            _adminUnitService = adminUnitService;
         }
 
-        
- 
         public ActionResult Index()
         {
-            return View(_healthStoryContext.Units.ToList());
+            var list = _adminUnitService.Get();
+            return View(list);
         }
 
         public IActionResult Create()
@@ -31,10 +25,10 @@ namespace HealthStory.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddUnit(AdminUnitsDto model)
+        public IActionResult Create(AdminUnitsDto model)
         {
-            _adminUnitsResolver.AddUnit(model);
-            return RedirectToAction("Index", "AdminUnits");
+            _adminUnitService.Create(model);
+            return RedirectToAction("Index");
         }
     }
 }

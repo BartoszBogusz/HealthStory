@@ -8,7 +8,7 @@
     <h2>Create new unit</h2>
 </section>
 <div class="container">
-    <form method="post" asp-action="AddUnit">
+    <form method="post" asp-action="Create">
             <section class="row">
                 <label class="control-label">Name</label>
                 @Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control" } })
