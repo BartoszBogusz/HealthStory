@@ -40,7 +40,7 @@ namespace HealthStory.Web
 
             services.AddTransient<IRegisterResolver, RegisterResolver>();
             services.AddTransient<ILoginResolver, LoginResolver>();
-            services.AddTransient<IAdminUnitsResolver, AdminUnitsResolver>();
+            services.AddTransient<IAdminUnitsResolver, AdminUnitService>();
             services.AddTransient<IUnitSelectListProvider, UnitSelectListProvider>();
             services.AddTransient<IAdminSubstanceInfoService, AdminSubstanceInfoService>();
             
