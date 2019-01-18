@@ -14,6 +14,7 @@ namespace HealthStory.Web.Entities
         public decimal Max { get; set; }
         public decimal Min { get; set; }
         public int UnitId { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual Unit Unit { get; set; }
         public virtual ICollection<BloodTestSubstance> BloodTestSubstances { get; set; }

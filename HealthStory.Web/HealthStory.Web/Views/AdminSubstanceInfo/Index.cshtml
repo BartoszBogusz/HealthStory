@@ -40,6 +40,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Unit)
             </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.SubstanceInfoId })
+            </td>
         </tr>
         }
     </tbody>
