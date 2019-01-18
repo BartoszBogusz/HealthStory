@@ -37,7 +37,7 @@ namespace HealthStory.Web.Controllers
         public IActionResult Create(SubstanceDefinitionCreateModel model)
         {
             _adminSubstanceInfoService.Create(model);
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }
