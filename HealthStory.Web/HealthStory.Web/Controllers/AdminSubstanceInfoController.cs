@@ -26,7 +26,7 @@ namespace HealthStory.Web.Controllers
         public IActionResult Create()
         {
             var unitList = _unitSelectListProvider.Get();
-            var model = new SubstanceDefinitionCreateModel
+            var model = new SubstanceInfoCreateModel
             {
                 UnitSelectList = unitList
             };
@@ -34,7 +34,7 @@ namespace HealthStory.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(SubstanceDefinitionCreateModel model)
+        public IActionResult Create(SubstanceInfoCreateModel model)
         {
             _adminSubstanceInfoService.Create(model);
             return RedirectToAction("Index");

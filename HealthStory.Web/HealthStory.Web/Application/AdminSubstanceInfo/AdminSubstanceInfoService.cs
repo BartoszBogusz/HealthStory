@@ -8,9 +8,9 @@ namespace HealthStory.Web.Application.AdminSubstance
 {
     public interface IAdminSubstanceInfoService
     {
-        void Create(SubstanceDefinitionCreateModel substance);
-        List<SubstanceDefinitionReadViewModel> Get();
-        SubstanceDefinitionReadViewModel Get(int substanceId);
+        void Create(SubstanceInfoCreateModel substance);
+        List<SubstanceInfoReadViewModel> Get();
+        SubstanceInfoReadViewModel Get(int substanceId);
     }
     public class AdminSubstanceInfoService : IAdminSubstanceInfoService
     {
@@ -21,7 +21,7 @@ namespace HealthStory.Web.Application.AdminSubstance
             _context = context;
         }
 
-        public void Create(SubstanceDefinitionCreateModel substance)
+        public void Create(SubstanceInfoCreateModel substance)
         {
             var newSubstance = new SubstanceInfo
             {
@@ -34,9 +34,9 @@ namespace HealthStory.Web.Application.AdminSubstance
             _context.SaveChanges();
         }
 
-        public List<SubstanceDefinitionReadViewModel> Get()
+        public List<SubstanceInfoReadViewModel> Get()
         {
-            var list = _context.SubstanceInfo.Select(x => new SubstanceDefinitionReadViewModel
+            var list = _context.SubstanceInfo.Select(x => new SubstanceInfoReadViewModel
             {
                 Max = x.Max,
                 Min = x.Min,
@@ -46,11 +46,11 @@ namespace HealthStory.Web.Application.AdminSubstance
             return list;
         }
 
-        public SubstanceDefinitionReadViewModel Get(int substanceId)
+        public SubstanceInfoReadViewModel Get(int substanceId)
         {
             var list = _context.SubstanceInfo
                 .Where(x => x.SubstanceInfoId == substanceId)
-                .Select(x => new SubstanceDefinitionReadViewModel
+                .Select(x => new SubstanceInfoReadViewModel
                 {
                     Max = x.Max,
                     Min = x.Min,

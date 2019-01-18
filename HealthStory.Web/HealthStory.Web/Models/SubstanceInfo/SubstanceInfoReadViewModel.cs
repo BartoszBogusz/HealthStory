@@ -1,6 +1,6 @@
 ﻿namespace HealthStory.Web.Models.SubstanceDefinition
 {
-    public class SubstanceDefinitionReadViewModel
+    public class SubstanceInfoReadViewModel
     {
         public string Name { get; set; }
         public decimal Max { get; set; }
