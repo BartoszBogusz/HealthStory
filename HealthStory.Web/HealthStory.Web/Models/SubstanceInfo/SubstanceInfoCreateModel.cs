@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HealthStory.Web.Models.SubstanceDefinition
 {
-    public class SubstanceDefinitionCreateModel
+    public class SubstanceInfoCreateModel
     {
         public int SubstanceDefinitionId { get; set; }
         public string Name { get; set; }
