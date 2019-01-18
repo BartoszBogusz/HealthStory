@@ -11,6 +11,7 @@ namespace HealthStory.Web.Application.AdminUnits
         void Create(AdminUnitsDto unit);
         List<AdminUnitsDto> Get();
         AdminUnitsDto Get(int unitId);
+        void Delete(int unitId);
     }
 
     public class AdminUnitService : IAdminUnitService
@@ -35,8 +36,11 @@ namespace HealthStory.Web.Application.AdminUnits
 
         public List<AdminUnitsDto> Get()
         {
-            var list = _context.Units.Select(x => new AdminUnitsDto
+            var list = _context.Units
+                .Where(x=> x.IsDeleted == false)
+                .Select(x => new AdminUnitsDto
             {
+                UnitId = x.UnitId,
                 Name = x.Name,
                 Shortcut = x.Shortcut
             }).ToList();
@@ -46,13 +50,23 @@ namespace HealthStory.Web.Application.AdminUnits
         public AdminUnitsDto Get(int unitId)
         {
             var item = _context.Units
-                .Where(x => x.UnitId == unitId)
+                .Where(x => x.UnitId == unitId && x.IsDeleted == false)
                 .Select(x => new AdminUnitsDto
                 {
+                    UnitId = x.UnitId,
                     Name = x.Name,
                     Shortcut = x.Shortcut
                 }).First();
             return item;
+        }
+
+        public void Delete(int unitId)
+        {
+            var unit = _context.Units.Where(x => x.UnitId == unitId).First();
+
+            unit.IsDeleted = true;
+
+            _context.SaveChanges();
         }
     }
 }
