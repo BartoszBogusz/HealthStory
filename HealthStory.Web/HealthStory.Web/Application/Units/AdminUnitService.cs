@@ -37,7 +37,7 @@ namespace HealthStory.Web.Application.AdminUnits
         public List<AdminUnitsDto> Get()
         {
             var list = _context.Units
-                .Where(x=> x.IsDeleted == false)
+                .Where(x=> !x.IsDeleted)
                 .Select(x => new AdminUnitsDto
             {
                 UnitId = x.UnitId,
@@ -50,7 +50,7 @@ namespace HealthStory.Web.Application.AdminUnits
         public AdminUnitsDto Get(int unitId)
         {
             var item = _context.Units
-                .Where(x => x.UnitId == unitId && x.IsDeleted == false)
+                .Where(x => x.UnitId == unitId && !x.IsDeleted)
                 .Select(x => new AdminUnitsDto
                 {
                     UnitId = x.UnitId,

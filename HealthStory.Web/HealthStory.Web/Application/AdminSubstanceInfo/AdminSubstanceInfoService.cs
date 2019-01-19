@@ -38,7 +38,7 @@ namespace HealthStory.Web.Application.AdminSubstance
         public List<SubstanceInfoReadViewModel> Get()
         {
             var list = _context.SubstanceInfo
-                .Where(x=> x.IsDeleted == false)
+                .Where(x=> !x.IsDeleted)
                 .Select(x => new SubstanceInfoReadViewModel
             {
                 SubstanceInfoId = x.SubstanceInfoId,
@@ -53,7 +53,7 @@ namespace HealthStory.Web.Application.AdminSubstance
         public SubstanceInfoReadViewModel Get(int substanceId)
         {
             var list = _context.SubstanceInfo
-                .Where(x => x.SubstanceInfoId == substanceId && x.IsDeleted == false)
+                .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted)
                 .Select(x => new SubstanceInfoReadViewModel
                 {
                     SubstanceInfoId = x.SubstanceInfoId,
