@@ -27,20 +27,23 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Max)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Min)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Unit)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Max)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Min)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unit)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.SubstanceInfoId })
+            </td>
+        </tr>
         }
     </tbody>
 </table>

@@ -3,14 +3,16 @@ using System;
 using HealthStory.Web.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HealthStory.Web.Migrations
 {
     [DbContext(typeof(HealthStoryContext))]
-    partial class HealthStoryContextModelSnapshot : ModelSnapshot
+    [Migration("20190118112621_DeletingUnits2")]
+    partial class DeletingUnits2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,8 +75,6 @@ namespace HealthStory.Web.Migrations
                 {
                     b.Property<int>("SubstanceInfoId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("IsDeleted");
 
                     b.Property<decimal>("Max");
 

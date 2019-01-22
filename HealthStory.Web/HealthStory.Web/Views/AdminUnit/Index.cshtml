@@ -30,6 +30,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Shortcut)
             </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.UnitId })
+            </td>
         </tr>
 }
     </tbody>

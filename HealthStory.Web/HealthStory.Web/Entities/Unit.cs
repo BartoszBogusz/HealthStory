@@ -13,6 +13,7 @@ namespace HealthStory.Web.Entities
         public int UnitId { get; set; }
         public string Name { get; set; }
         public string Shortcut { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual ICollection<SubstanceInfo> SubstanceInfo { get; set; }
     }

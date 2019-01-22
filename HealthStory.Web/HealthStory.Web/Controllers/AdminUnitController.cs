@@ -30,5 +30,12 @@ namespace HealthStory.Web.Controllers
             _adminUnitService.Create(model);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            _adminUnitService.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }
