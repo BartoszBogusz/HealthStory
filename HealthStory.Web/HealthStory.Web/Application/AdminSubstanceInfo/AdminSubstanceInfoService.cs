@@ -9,8 +9,8 @@ namespace HealthStory.Web.Application.AdminSubstance
     public interface IAdminSubstanceInfoService
     {
         void Create(SubstanceInfoCreateModel substance);
-        List<SubstanceInfoReadViewModel> Get();
-        SubstanceInfoReadViewModel Get(int substanceId);
+        List<SubstanceInfoDto> Get();
+        SubstanceInfoDto Get(int substanceId);
         void Delete(int substanceId);
     }
     public class AdminSubstanceInfoService : IAdminSubstanceInfoService
@@ -35,11 +35,11 @@ namespace HealthStory.Web.Application.AdminSubstance
             _context.SaveChanges();
         }
 
-        public List<SubstanceInfoReadViewModel> Get()
+        public List<SubstanceInfoDto> Get()
         {
             var list = _context.SubstanceInfo
                 .Where(x=> !x.IsDeleted)
-                .Select(x => new SubstanceInfoReadViewModel
+                .Select(x => new SubstanceInfoDto
             {
                 SubstanceInfoId = x.SubstanceInfoId,
                 Max = x.Max,
@@ -50,11 +50,11 @@ namespace HealthStory.Web.Application.AdminSubstance
             return list;
         }
 
-        public SubstanceInfoReadViewModel Get(int substanceId)
+        public SubstanceInfoDto Get(int substanceId)
         {
             var list = _context.SubstanceInfo
                 .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted)
-                .Select(x => new SubstanceInfoReadViewModel
+                .Select(x => new SubstanceInfoDto
                 {
                     SubstanceInfoId = x.SubstanceInfoId,
                     Max = x.Max,

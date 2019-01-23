@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HealthStory.Web.Models.BloodTest;
 using Microsoft.AspNetCore.Mvc;
-using HealthStory.Web.Models;
 
 namespace HealthStory.Web.Controllers
 {
@@ -15,24 +10,12 @@ namespace HealthStory.Web.Controllers
             return View();
         }
 
-        public IActionResult About()
+        [HttpPost]
+        public ActionResult Index(CreateBloodTestViewModel model)
         {
-            ViewData["Message"] = "Your application description page.";
-
+            //ViewBag.Data = string.Join(",", dynamicField ?? new string[] { });
             return View();
         }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        
     }
 }

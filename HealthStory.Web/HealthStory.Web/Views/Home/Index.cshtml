@@ -1,3 +1,49 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model HealthStory.Web.Models.BloodTest.CreateBloodTestViewModel
+
+@{
+    ViewData["Title"] = "Create";
 }
+
+<section>
+    <h2>Create new blood test</h2>
+</section>
+<div class="container">
+    <form method="post" asp-action="Index">
+        <section class="row">
+            <label class="control-label">Name</label>
+            @Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+
+        <section class="row">
+            <label class="control-label">Description</label>
+            @Html.EditorFor(x => x.Description, new { htmlAttributes = new { @class = "form-control" } })
+        </section>
+
+        <section class="row">
+            <label class="control-label">Substances</label>
+            <div id="substances"></div>
+            <button id="btnAddSubstance">Add substance</button>
+        </section>
+
+        <section class="row">
+            <button type="submit" class="btn btn-success">Save</button>
+        </section>
+
+    </form>
+</div>
+
+<!-- JS includes -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+    
+    $(document).ready(function () {
+        $('#btnAddSubstance').click((e) => {
+            const $fields = $('#substances');
+            const numberOfSubstances = $fields.children().length;
+            e.preventDefault();
+            $('<input type="text" class="form-control" name="substances[' + numberOfSubstances + '].name" />').appendTo($fields);
+        });
+    });
+
+</script>

@@ -1,6 +1,6 @@
 ﻿namespace HealthStory.Web.Models.SubstanceDefinition
 {
-    public class SubstanceInfoReadViewModel
+    public class SubstanceInfoDto
     {
         public int SubstanceInfoId { get; set; }
         public string Name { get; set; }
