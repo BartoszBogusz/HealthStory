@@ -12,8 +12,10 @@ namespace HealthStory.Web.Entities
         }
 
         public int BloodTestId { get; set; }
+        public string Name { get; set; }
         public DateTime Date { get; set; }
         public int AppUserId { get; set; }
+        public string Description { get; set; }
 
         public virtual AppUser AppUser { get; set; }
         public virtual ICollection<BloodTestSubstance> BloodTestSubstances { get; set; }
