@@ -13,7 +13,7 @@ namespace HealthStory.Web.Controllers
             _adminUnitService = adminUnitService;
         }
 
-        public ActionResult Index()
+        public IActionResult Index()
         {
             var list = _adminUnitService.Get();
             return View(list);
