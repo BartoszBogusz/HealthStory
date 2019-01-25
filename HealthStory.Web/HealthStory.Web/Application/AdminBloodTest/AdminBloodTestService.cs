@@ -10,9 +10,9 @@ namespace HealthStory.Web.Application.AdminBloodTest
     public interface IAdminBloodTestService
     {
         void Create(CreateBloodTestViewModel bloodTest);
-        List<BloodTestDto> Get();
-        BloodTestDto Get(int bloodTestId);
-        void Update(BloodTestDto bloodTest);
+        List<BloodTestInfoDto> Get();
+        BloodTestInfoDto Get(int bloodTestId);
+        void Update(BloodTestInfoDto bloodTest);
         void Delete(int bloodTestId);
     }
 
@@ -46,10 +46,10 @@ namespace HealthStory.Web.Application.AdminBloodTest
             _context.SaveChanges();
         }
 
-        public List<BloodTestDto> Get()
+        public List<BloodTestInfoDto> Get()
         {
             var list = _context.BloodTestsInfo
-                .Select(x => new BloodTestDto
+                .Select(x => new BloodTestInfoDto
                 {
                     BloodTestId = x.BloodTestInfoId,
                     Name = x.Name,
@@ -58,11 +58,11 @@ namespace HealthStory.Web.Application.AdminBloodTest
             return list;
         }
 
-        public BloodTestDto Get(int bloodTestId)
+        public BloodTestInfoDto Get(int bloodTestId)
         {
             var list = _context.BloodTestsInfo
                  .Where(x => x.BloodTestInfoId == bloodTestId)
-                 .Select(x => new BloodTestDto
+                 .Select(x => new BloodTestInfoDto
                  {
                      BloodTestId = x.BloodTestInfoId,
                      Name = x.Name,
@@ -71,7 +71,7 @@ namespace HealthStory.Web.Application.AdminBloodTest
             return list;
         }
 
-        public void Update(BloodTestDto bloodTest)
+        public void Update(BloodTestInfoDto bloodTest)
         {
             var dbBloodTest = _context.BloodTestsInfo
                 .First(x => x.BloodTestInfoId == bloodTest.BloodTestId);
@@ -79,6 +79,12 @@ namespace HealthStory.Web.Application.AdminBloodTest
             dbBloodTest.Name = bloodTest.Name;
             dbBloodTest.Description = bloodTest.Description;
 
+            var substancesInDb = _context.BloodTestsSubstancesInfo
+                .Where(x => x.BloodTestInfoId == bloodTest.BloodTestId)
+                .Select(x => x.SubstanceInfoId)
+                .ToList();
+
+            var newSubstances = bloodTest.Substances.Select(x => x.SubstanceInfoId).ToList();
 
             _context.SaveChanges();
         }

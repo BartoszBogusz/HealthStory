@@ -39,7 +39,7 @@ namespace HealthStory.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(BloodTestDto model)
+        public IActionResult Edit(BloodTestInfoDto model)
         {
             _adminBloodTestService.Update(model);
             return RedirectToAction("Index");
