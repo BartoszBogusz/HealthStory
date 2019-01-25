@@ -6,7 +6,7 @@ namespace HealthStory.Web.Entities
     {
         public SubstanceInfo()
         {
-            BloodTestSubstances = new HashSet<BloodTestSubstance>();
+            BloodTestsSubstancesInfo = new HashSet<BloodTestSubstanceInfo>();
         }
         
         public int SubstanceInfoId { get; set; }
@@ -17,7 +17,7 @@ namespace HealthStory.Web.Entities
         public bool IsDeleted { get; set; }
 
         public virtual Unit Unit { get; set; }
-        public virtual ICollection<BloodTestSubstance> BloodTestSubstances { get; set; }
+        public virtual ICollection<BloodTestSubstanceInfo> BloodTestsSubstancesInfo { get; set; }
 
     }
 }
