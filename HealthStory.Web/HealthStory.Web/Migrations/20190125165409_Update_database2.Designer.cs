@@ -3,14 +3,16 @@ using System;
 using HealthStory.Web.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HealthStory.Web.Migrations
 {
     [DbContext(typeof(HealthStoryContext))]
-    partial class HealthStoryContextModelSnapshot : ModelSnapshot
+    [Migration("20190125165409_Update_database2")]
+    partial class Update_database2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

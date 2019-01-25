@@ -14,7 +14,6 @@ namespace HealthStory.Web.Application.AdminBloodTest
         BloodTestDto Get(int bloodTestId);
         void Update(BloodTestDto bloodTest);
         void Delete(int bloodTestId);
-        BloodTestDto GetForEdition(int bloodTestId);
     }
 
     public class AdminBloodTestService : IAdminBloodTestService
@@ -28,67 +27,66 @@ namespace HealthStory.Web.Application.AdminBloodTest
 
         public void Create(CreateBloodTestViewModel bloodTest)
         {
-            var newBloodTest = new BloodTest
+            var newBloodTest = new BloodTestInfo
             {
-                //nie mam pojecia co tutaj wpisac, bo zadne properites z tabeli w bazie danych nie maja pokrycia w modelu CreateBloodTestViewModel
+                Name = bloodTest.Name,
+                Description = bloodTest.Description
             };
-            _context.BloodTests.Add(newBloodTest);
+            _context.BloodTestsInfo.Add(newBloodTest);
+
+            foreach (var substance in bloodTest.Substances)
+            {
+                _context.BloodTestsSubstancesInfo.Add(new BloodTestSubstanceInfo
+                {
+                    BloodTestInfoId = newBloodTest.BloodTestInfoId,
+                    SubstanceInfoId = substance.SubstanceInfoId
+                });
+            }
+
             _context.SaveChanges();
         }
 
         public List<BloodTestDto> Get()
         {
-            var list = _context.BloodTests
+            var list = _context.BloodTestsInfo
                 .Select(x => new BloodTestDto
                 {
-                    BloodTestId = x.BloodTestId,
-                    Date = x.Date,
-                    AppUser = x.AppUser.Login,             
+                    BloodTestId = x.BloodTestInfoId,
+                    Name = x.Name,
+                    Description = x.Description
                 }).ToList();
             return list;
         }
 
         public BloodTestDto Get(int bloodTestId)
         {
-            var list = _context.BloodTests
-                 .Where(x => x.BloodTestId == bloodTestId)
+            var list = _context.BloodTestsInfo
+                 .Where(x => x.BloodTestInfoId == bloodTestId)
                  .Select(x => new BloodTestDto
                  {
-                     BloodTestId = x.BloodTestId,
-                     Date = x.Date,
-                     AppUser = x.AppUser.Login,
+                     BloodTestId = x.BloodTestInfoId,
+                     Name = x.Name,
+                     Description = x.Description
                  }).First();
             return list;
         }
 
-        public BloodTestDto GetForEdition(int bloodTestId)
-        {
-            var bloodTest = _context.BloodTests
-                .Where(x => x.BloodTestId == bloodTestId)                                           
-                .Select(x => new BloodTestDto
-
-                {
-                    Date = x.Date,
-                    AppUser = x.AppUser.Login,
-                }).First();
-            return bloodTest;
-        }
-
         public void Update(BloodTestDto bloodTest)
         {
-            var bloodTestQuery = _context.BloodTests
-                .First(x => x.BloodTestId == bloodTest.BloodTestId);
+            var dbBloodTest = _context.BloodTestsInfo
+                .First(x => x.BloodTestInfoId == bloodTest.BloodTestId);
 
-            bloodTestQuery.Date = bloodTest.Date;
-            bloodTestQuery.AppUser.Login = bloodTest.AppUser;
+            dbBloodTest.Name = bloodTest.Name;
+            dbBloodTest.Description = bloodTest.Description;
+
 
             _context.SaveChanges();
         }
 
         public void Delete(int bloodTestId)
         {
-            var bloodTest = _context.BloodTests
-                .Where(x => x.BloodTestId == bloodTestId).First();
+            var bloodTest = _context.BloodTestsInfo
+                .Where(x => x.BloodTestInfoId == bloodTestId).First();
 
             _context.Remove(bloodTest);
             _context.SaveChanges();

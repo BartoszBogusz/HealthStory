@@ -34,7 +34,7 @@ namespace HealthStory.Web.Controllers
         [HttpGet]
         public IActionResult Edit(int bloodTestId)
         {
-            var bloodTest = _adminBloodTestService.GetForEdition(bloodTestId);
+            var bloodTest = _adminBloodTestService.Get(bloodTestId);
             return View(bloodTest);
         }
 

@@ -3,14 +3,16 @@ using System;
 using HealthStory.Web.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HealthStory.Web.Migrations
 {
     [DbContext(typeof(HealthStoryContext))]
-    partial class HealthStoryContextModelSnapshot : ModelSnapshot
+    [Migration("20190124121031_Update-BloodTest")]
+    partial class UpdateBloodTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,8 +23,6 @@ namespace HealthStory.Web.Migrations
                 {
                     b.Property<int>("AppUserId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateOfBirth");
 
                     b.Property<string>("Email");
 
@@ -35,31 +35,44 @@ namespace HealthStory.Web.Migrations
                     b.ToTable("AppUsers");
                 });
 
-            modelBuilder.Entity("HealthStory.Web.Entities.BloodTestInfo", b =>
+            modelBuilder.Entity("HealthStory.Web.Entities.BloodTest", b =>
                 {
-                    b.Property<int>("BloodTestInfoId")
+                    b.Property<int>("BloodTestId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AppUserId");
+
+                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
 
                     b.Property<string>("Name");
 
-                    b.HasKey("BloodTestInfoId");
+                    b.HasKey("BloodTestId");
 
-                    b.ToTable("BloodTestsInfo");
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("BloodTests");
                 });
 
-            modelBuilder.Entity("HealthStory.Web.Entities.BloodTestSubstanceInfo", b =>
+            modelBuilder.Entity("HealthStory.Web.Entities.BloodTestSubstance", b =>
                 {
-                    b.Property<int>("BloodTestInfoId");
+                    b.Property<int>("BloodTestSubstanceId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BloodTestId");
 
                     b.Property<int>("SubstanceInfoId");
 
-                    b.HasKey("BloodTestInfoId", "SubstanceInfoId");
+                    b.Property<int>("Value");
+
+                    b.HasKey("BloodTestSubstanceId");
+
+                    b.HasIndex("BloodTestId");
 
                     b.HasIndex("SubstanceInfoId");
 
-                    b.ToTable("BloodTestsSubstancesInfo");
+                    b.ToTable("BloodTestsSubstances");
                 });
 
             modelBuilder.Entity("HealthStory.Web.Entities.SubstanceInfo", b =>
@@ -100,15 +113,23 @@ namespace HealthStory.Web.Migrations
                     b.ToTable("Units");
                 });
 
-            modelBuilder.Entity("HealthStory.Web.Entities.BloodTestSubstanceInfo", b =>
+            modelBuilder.Entity("HealthStory.Web.Entities.BloodTest", b =>
                 {
-                    b.HasOne("HealthStory.Web.Entities.BloodTestInfo", "BloodTestsInfo")
-                        .WithMany("BloodTestsSubstancesInfo")
-                        .HasForeignKey("BloodTestInfoId")
+                    b.HasOne("HealthStory.Web.Entities.AppUser", "AppUser")
+                        .WithMany("BloodTests")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HealthStory.Web.Entities.BloodTestSubstance", b =>
+                {
+                    b.HasOne("HealthStory.Web.Entities.BloodTest", "BloodTest")
+                        .WithMany("BloodTestSubstances")
+                        .HasForeignKey("BloodTestId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HealthStory.Web.Entities.SubstanceInfo", "SubstanceInfo")
-                        .WithMany("BloodTestsSubstancesInfo")
+                        .WithMany("BloodTestSubstances")
                         .HasForeignKey("SubstanceInfoId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
