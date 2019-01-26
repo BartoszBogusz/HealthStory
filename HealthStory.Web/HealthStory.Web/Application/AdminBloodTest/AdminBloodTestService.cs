@@ -79,13 +79,29 @@ namespace HealthStory.Web.Application.AdminBloodTest
             dbBloodTest.Name = bloodTest.Name;
             dbBloodTest.Description = bloodTest.Description;
 
-            var substancesInDb = _context.BloodTestsSubstancesInfo
+            var substancesInDb = _context.BloodTestsSubstancesInfo   
                 .Where(x => x.BloodTestInfoId == bloodTest.BloodTestId)
                 .Select(x => x.SubstanceInfoId)
                 .ToList();
 
             var newSubstances = bloodTest.Substances.Select(x => x.SubstanceInfoId).ToList();
 
+            var toAdd = newSubstances.Except(substancesInDb)
+                .Select(x => new BloodTestSubstanceInfo
+            {
+                BloodTestInfoId = bloodTest.BloodTestId,
+                SubstanceInfoId = x
+            }).ToList();
+
+            _context.BloodTestsSubstancesInfo.AddRange(toAdd);
+
+            var toRemoveIds = substancesInDb.Except(newSubstances);
+
+            var toRemove = _context.BloodTestsSubstancesInfo
+                .Where(x => toRemoveIds.Contains(x.SubstanceInfoId) && x.BloodTestInfoId == bloodTest.BloodTestId)
+                .ToList();
+
+            _context.BloodTestsSubstancesInfo.RemoveRange(toRemove);
             _context.SaveChanges();
         }
 
