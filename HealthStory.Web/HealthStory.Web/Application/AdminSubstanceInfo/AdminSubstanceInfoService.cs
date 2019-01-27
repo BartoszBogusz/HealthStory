@@ -1,6 +1,7 @@
 ﻿using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
 using HealthStory.Web.Models.SubstanceDefinition;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,6 +11,7 @@ namespace HealthStory.Web.Application.AdminSubstance
     {
         void Create(SubstanceInfoCreateModel substance);
         List<SubstanceInfoDto> Get();
+        List<SelectListItem> GetSelectListItems();
         SubstanceInfoDto Get(int substanceId);
         void Delete(int substanceId);
     }
@@ -74,6 +76,14 @@ namespace HealthStory.Web.Application.AdminSubstance
             _context.SaveChanges();
         }
 
-
+        public List<SelectListItem> GetSelectListItems()
+        {
+            var substancesList = _context.SubstanceInfo.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.SubstanceInfoId.ToString()
+            }).ToList();
+            return substancesList;
+        }
     }
 }

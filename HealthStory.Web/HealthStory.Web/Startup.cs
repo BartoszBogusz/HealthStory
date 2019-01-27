@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HealthStory.Web.Application.AdminBloodTestInfo;
 using HealthStory.Web.Application.AdminSubstance;
 using HealthStory.Web.Application.AdminUnits;
 using HealthStory.Web.Application.Login;
@@ -43,6 +44,7 @@ namespace HealthStory.Web
             services.AddTransient<IAdminUnitService, AdminUnitService>();
             services.AddTransient<IUnitSelectListProvider, UnitSelectListProvider>();
             services.AddTransient<IAdminSubstanceInfoService, AdminSubstanceInfoService>();
+            services.AddTransient<IAdminBloodTestInfoService, AdminBloodTestInfoService>();
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

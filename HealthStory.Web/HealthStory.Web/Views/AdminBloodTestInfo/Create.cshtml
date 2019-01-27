@@ -1,14 +1,16 @@
 ﻿@model HealthStory.Web.Models.BloodTestInfo.CreateBloodTestInfoViewModel
+@inject IJsonHelper Json;
 
 @{
     ViewData["Title"] = "Create";
+    var substances = ViewBag.SubstanceList as List<SelectListItem>;
 }
 
 <section>
     <h2>Create new blood test</h2>
 </section>
 <div class="container">
-    <form method="post" asp-action="Index">
+    <form method="post" asp-action="Create">
         <section class="row">
             <label class="control-label">Name</label>
             @Html.EditorFor(x => x.Name, new { htmlAttributes = new { @class = "form-control" } })
@@ -19,9 +21,8 @@
             @Html.EditorFor(x => x.Description, new { htmlAttributes = new { @class = "form-control" } })
         </section>
 
-        <section class="row">
+        <section class="row" id="substances">
             <label class="control-label">Substances</label>
-            <div id="substances"></div>
             <button id="btnAddSubstance">Add substance</button>
         </section>
 
@@ -32,18 +33,31 @@
     </form>
 </div>
 
-<!-- JS includes --> 
+<!-- JS includes -->
 <!-- TODO Include jQuery globally -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
+
+        const createSelectInput = (index) => {
+            const substanceArray = @Json.Serialize(substances);
+            let selectControl = '<select class = "form-control" name="substances[' + index + '].substanceInfoId">';
+            for (substance of substanceArray) {
+                const option = '<option value="' + substance.value + '">' + substance.text + '</option>';
+                selectControl += option;
+            }
+            selectControl += '</select>';
+            return selectControl;
+        };
+
+
         $('#btnAddSubstance').click((e) => {
             const $fields = $('#substances');
-            const numberOfSubstances = $fields.children().length;
+            const numberOfSubstances = $fields.children().length - 2;
             e.preventDefault();
-            $('<input type="text" class="form-control" name="substances[' + numberOfSubstances + '].name" />').appendTo($fields);
+            const control = createSelectInput(numberOfSubstances);
+            $(control).appendTo($fields);
         });
     });
 

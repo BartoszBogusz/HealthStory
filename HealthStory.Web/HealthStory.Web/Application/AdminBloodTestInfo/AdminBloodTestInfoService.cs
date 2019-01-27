@@ -30,18 +30,13 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
             var newBloodTest = new BloodTestInfo
             {
                 Name = bloodTest.Name,
-                Description = bloodTest.Description
+                Description = bloodTest.Description,
+                BloodTestsSubstancesInfo = bloodTest.Substances.Select(x => new BloodTestSubstanceInfo
+                {
+                    SubstanceInfoId = x.SubstanceInfoId
+                }).ToList()
             };
             _context.BloodTestsInfo.Add(newBloodTest);
-
-            foreach (var substance in bloodTest.Substances)
-            {
-                _context.BloodTestsSubstancesInfo.Add(new BloodTestSubstanceInfo
-                {
-                    BloodTestInfoId = newBloodTest.BloodTestInfoId,
-                    SubstanceInfoId = substance.SubstanceInfoId
-                });
-            }
 
             _context.SaveChanges();
         }
