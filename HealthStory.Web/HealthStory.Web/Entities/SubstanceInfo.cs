@@ -7,6 +7,7 @@ namespace HealthStory.Web.Entities
         public SubstanceInfo()
         {
             BloodTestsSubstancesInfo = new HashSet<BloodTestSubstanceInfo>();
+            AppUserBloodTestValue = new HashSet<AppUserBloodTestValue>();
         }
         
         public int SubstanceInfoId { get; set; }
@@ -18,6 +19,6 @@ namespace HealthStory.Web.Entities
 
         public virtual Unit Unit { get; set; }
         public virtual ICollection<BloodTestSubstanceInfo> BloodTestsSubstancesInfo { get; set; }
-
+        public virtual ICollection<AppUserBloodTestValue> AppUserBloodTestValue { get; set; }
     }
 }
