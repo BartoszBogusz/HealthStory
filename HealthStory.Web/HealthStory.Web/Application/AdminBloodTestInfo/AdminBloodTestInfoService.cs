@@ -1,31 +1,31 @@
 ﻿using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
-using HealthStory.Web.Models.BloodTest;
+using HealthStory.Web.Models.BloodTestInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace HealthStory.Web.Application.AdminBloodTest
+namespace HealthStory.Web.Application.AdminBloodTestInfo
 {
-    public interface IAdminBloodTestService
+    public interface IAdminBloodTestInfoService
     {
-        void Create(CreateBloodTestViewModel bloodTest);
+        void Create(CreateBloodTestInfoViewModel bloodTest);
         List<BloodTestInfoDto> Get();
         BloodTestInfoDto Get(int bloodTestId);
         void Update(BloodTestInfoDto bloodTest);
         void Delete(int bloodTestId);
     }
 
-    public class AdminBloodTestService : IAdminBloodTestService
+    public class AdminBloodTestInfoService : IAdminBloodTestInfoService
     {
         private readonly HealthStoryContext _context;
 
-        public AdminBloodTestService(HealthStoryContext context)
+        public AdminBloodTestInfoService(HealthStoryContext context)
         {
             _context = context;
         }
 
-        public void Create(CreateBloodTestViewModel bloodTest)
+        public void Create(CreateBloodTestInfoViewModel bloodTest)
         {
             var newBloodTest = new BloodTestInfo
             {

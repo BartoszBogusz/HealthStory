@@ -1,14 +1,14 @@
-﻿using HealthStory.Web.Application.AdminBloodTest;
-using HealthStory.Web.Models.BloodTest;
+﻿using HealthStory.Web.Application.AdminBloodTestInfo;
+using HealthStory.Web.Models.BloodTestInfo;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthStory.Web.Controllers
 {
-    public class AdminBloodTestController : Controller
+    public class AdminBloodTestInfoController : Controller
     {
-        private readonly IAdminBloodTestService _adminBloodTestService;
+        private readonly IAdminBloodTestInfoService _adminBloodTestService;
 
-        public AdminBloodTestController(IAdminBloodTestService adminBloodTestService)
+        public AdminBloodTestInfoController(IAdminBloodTestInfoService adminBloodTestService)
         {
             _adminBloodTestService = adminBloodTestService;
         }
@@ -25,7 +25,7 @@ namespace HealthStory.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CreateBloodTestViewModel model)
+        public IActionResult Create(CreateBloodTestInfoViewModel model)
         {
             _adminBloodTestService.Create(model);
             return RedirectToAction("Index");

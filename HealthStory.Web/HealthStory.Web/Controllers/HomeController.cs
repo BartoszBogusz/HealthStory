@@ -1,4 +1,4 @@
-﻿using HealthStory.Web.Models.BloodTest;
+﻿using HealthStory.Web.Models.BloodTestInfo;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthStory.Web.Controllers
@@ -9,13 +9,5 @@ namespace HealthStory.Web.Controllers
         {
             return View();
         }
-
-        [HttpPost]
-        public ActionResult Index(CreateBloodTestViewModel model)
-        {
-            //ViewBag.Data = string.Join(",", dynamicField ?? new string[] { });
-            return View();
-        }
-        
     }
 }
