@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace HealthStory.Web.Entities
+namespace HealthStory.Web.Models.AppUserBloodTestValue
 {
-    public class AppUserBloodTestValue
+    public class AppUserBloodTestValueViewModel
     {
         public int AppUserBloodTestValueId { get; set; }
         public int AppUserId { get; set; }
@@ -10,10 +10,5 @@ namespace HealthStory.Web.Entities
         public int BloodTestInfoId { get; set; }
         public decimal Value { get; set; }
         public DateTime CreateDate { get; set; }
-        public bool IsDeleted { get; set; }
-
-        public virtual AppUser AppUser { get; set; }
-        public virtual SubstanceInfo SubstanceInfo { get; set; }
-        public virtual BloodTestInfo BloodTestInfo { get; set; }
     }
 }

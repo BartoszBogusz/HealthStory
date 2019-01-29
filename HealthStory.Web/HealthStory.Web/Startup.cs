@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HealthStory.Web.Application.AdminBloodTestInfo;
+﻿using HealthStory.Web.Application.AdminBloodTestInfo;
 using HealthStory.Web.Application.AdminSubstance;
 using HealthStory.Web.Application.AdminUnits;
+using HealthStory.Web.Application.AppUserBloodTestValue;
 using HealthStory.Web.Application.Login;
 using HealthStory.Web.Application.Register;
 using HealthStory.Web.Application.Units.SelectList;
@@ -45,7 +42,9 @@ namespace HealthStory.Web
             services.AddTransient<IUnitSelectListProvider, UnitSelectListProvider>();
             services.AddTransient<IAdminSubstanceInfoService, AdminSubstanceInfoService>();
             services.AddTransient<IAdminBloodTestInfoService, AdminBloodTestInfoService>();
-            
+            services.AddTransient<IAppUserBloodTestValueService, AppUserBloodTestValueService>();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<HealthStoryContext>(options =>

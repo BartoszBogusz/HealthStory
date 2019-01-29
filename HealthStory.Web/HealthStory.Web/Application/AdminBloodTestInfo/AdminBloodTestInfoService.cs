@@ -31,7 +31,8 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
             {
                 Name = bloodTest.Name,
                 Description = bloodTest.Description,
-                BloodTestsSubstancesInfo = bloodTest.Substances.Select(x => new BloodTestSubstanceInfo
+                BloodTestsSubstancesInfo = bloodTest.Substances
+                .Select(x => new BloodTestSubstanceInfo
                 {
                     SubstanceInfoId = x.SubstanceInfoId
                 }).ToList()
@@ -44,6 +45,7 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
         public List<BloodTestInfoDto> Get()
         {
             var list = _context.BloodTestsInfo
+                .Where(x => !x.IsDeleted)
                 .Select(x => new BloodTestInfoDto
                 {
                     BloodTestId = x.BloodTestInfoId,
@@ -55,15 +57,15 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
 
         public BloodTestInfoDto Get(int bloodTestId)
         {
-            var list = _context.BloodTestsInfo
-                 .Where(x => x.BloodTestInfoId == bloodTestId)
+            var item = _context.BloodTestsInfo
+                 .Where(x => x.BloodTestInfoId == bloodTestId && !x.IsDeleted)
                  .Select(x => new BloodTestInfoDto
                  {
                      BloodTestId = x.BloodTestInfoId,
                      Name = x.Name,
                      Description = x.Description
                  }).First();
-            return list;
+            return item;
         }
 
         public void Update(BloodTestInfoDto bloodTest)
@@ -105,7 +107,8 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
             var bloodTest = _context.BloodTestsInfo
                 .Where(x => x.BloodTestInfoId == bloodTestId).First();
 
-            _context.Remove(bloodTest);
+            bloodTest.IsDeleted = true;
+
             _context.SaveChanges();
         }
     }
