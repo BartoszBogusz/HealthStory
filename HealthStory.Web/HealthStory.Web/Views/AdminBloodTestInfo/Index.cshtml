@@ -1,7 +1,40 @@
-﻿
+﻿@model IEnumerable<HealthStory.Web.Models.BloodTestInfo.ReadBloodTestInfoViewModel>
+
 @{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Blood tests list</h2>
 
+@Html.ActionLink("Create new substance info", "Create")
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Number of substances
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfSubstances)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

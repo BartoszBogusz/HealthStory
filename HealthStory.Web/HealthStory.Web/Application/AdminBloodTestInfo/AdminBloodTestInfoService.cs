@@ -10,7 +10,7 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
     public interface IAdminBloodTestInfoService
     {
         void Create(CreateBloodTestInfoViewModel bloodTest);
-        List<BloodTestInfoDto> Get();
+        List<ReadBloodTestInfoViewModel> Get();
         BloodTestInfoDto Get(int bloodTestId);
         void Update(BloodTestInfoDto bloodTest);
         void Delete(int bloodTestId);
@@ -42,15 +42,15 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
             _context.SaveChanges();
         }
 
-        public List<BloodTestInfoDto> Get()
+        public List<ReadBloodTestInfoViewModel> Get()
         {
             var list = _context.BloodTestsInfo
                 .Where(x => !x.IsDeleted)
-                .Select(x => new BloodTestInfoDto
+                .Select(x => new ReadBloodTestInfoViewModel
                 {
-                    BloodTestId = x.BloodTestInfoId,
                     Name = x.Name,
-                    Description = x.Description
+                    Description = x.Description,
+                    NumberOfSubstances = x.BloodTestsSubstancesInfo.Where(s => !s.IsDeleted).Count()
                 }).ToList();
             return list;
         }
