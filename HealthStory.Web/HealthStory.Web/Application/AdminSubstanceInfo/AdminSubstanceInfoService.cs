@@ -40,7 +40,7 @@ namespace HealthStory.Web.Application.AdminSubstance
         public List<SubstanceInfoDto> Get()
         {
             var list = _context.SubstanceInfo
-                .Where(x=> !x.IsDeleted)
+                .Where(x => !x.IsDeleted)
                 .Select(x => new SubstanceInfoDto
             {
                 SubstanceInfoId = x.SubstanceInfoId,
@@ -54,8 +54,9 @@ namespace HealthStory.Web.Application.AdminSubstance
 
         public SubstanceInfoDto Get(int substanceId)
         {
-            var list = _context.SubstanceInfo
-                .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted)
+            var item = _context.SubstanceInfo
+                .Where(x => x.SubstanceInfoId == substanceId)
+                .Where(x => !x.IsDeleted)
                 .Select(x => new SubstanceInfoDto
                 {
                     SubstanceInfoId = x.SubstanceInfoId,
@@ -64,12 +65,13 @@ namespace HealthStory.Web.Application.AdminSubstance
                     Unit = x.Unit.Name,
                     Name = x.Name
                 }).First();
-            return list;
+            return item;
         }
 
         public void Delete(int substanceId)
         {
-            var unit = _context.SubstanceInfo.Where(x => x.SubstanceInfoId == substanceId).First();
+            var unit = _context.SubstanceInfo
+                .Where(x => x.SubstanceInfoId == substanceId).First();
 
             unit.IsDeleted = true;
 

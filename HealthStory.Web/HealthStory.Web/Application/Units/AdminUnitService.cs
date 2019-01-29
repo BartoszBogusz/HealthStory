@@ -62,7 +62,8 @@ namespace HealthStory.Web.Application.AdminUnits
 
         public void Delete(int unitId)
         {
-            var unit = _context.Units.Where(x => x.UnitId == unitId).First();
+            var unit = _context.Units
+                .Where(x => x.UnitId == unitId).First();
 
             unit.IsDeleted = true;
 
