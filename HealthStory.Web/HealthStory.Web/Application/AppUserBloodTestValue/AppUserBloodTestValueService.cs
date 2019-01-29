@@ -39,7 +39,7 @@ namespace HealthStory.Web.Application.AppUserBloodTestValue
         public void Delete(int appUserBloodTestValueId)
         {
             var appUserBloodTestValue = _context.AppUserBloodTestValues
-                .Where(x => x.AppUserBloodTestValueId == appUserBloodTestValueId)
+                .Where(x => x.AppUserBloodTestValueId == appUserBloodTestValueId && !x.IsDeleted)
                 .First();
 
             appUserBloodTestValue.IsDeleted = true;
@@ -50,8 +50,7 @@ namespace HealthStory.Web.Application.AppUserBloodTestValue
         public AppUserBloodTestValueViewModel Get(int appUserBloodTestValueId)
         {
             var item = _context.AppUserBloodTestValues
-                .Where(x => x.AppUserBloodTestValueId == appUserBloodTestValueId)
-                .Where(x => !x.IsDeleted)
+                .Where(x => x.AppUserBloodTestValueId == appUserBloodTestValueId && !x.IsDeleted)
                 .Select(x => new AppUserBloodTestValueViewModel
                 {
                     Value = x.Value,

@@ -58,7 +58,7 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
         public BloodTestInfoDto Get(int bloodTestId)
         {
             var item = _context.BloodTestsInfo
-                 .Where(x => x.BloodTestInfoId == bloodTestId)
+                 .Where(x => x.BloodTestInfoId == bloodTestId && !x.IsDeleted)
                  .Select(x => new BloodTestInfoDto
                  {
                      BloodTestId = x.BloodTestInfoId,
