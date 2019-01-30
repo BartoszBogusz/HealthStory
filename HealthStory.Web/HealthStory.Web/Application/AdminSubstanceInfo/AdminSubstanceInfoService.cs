@@ -1,6 +1,6 @@
 ﻿using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
-using HealthStory.Web.Models.SubstanceDefinition;
+using HealthStory.Web.Models.SubstanceInfo;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,8 @@ namespace HealthStory.Web.Application.AdminSubstance
         void Create(SubstanceInfoCreateModel substance);
         List<SubstanceInfoDto> Get();
         List<SelectListItem> GetSelectListItems();
-        SubstanceInfoDto Get(int substanceId);
+        SubstanceInfoCreateModel Get(int substanceId);
+        void Update(SubstanceInfoCreateModel substance);
         void Delete(int substanceId);
     }
     public class AdminSubstanceInfoService : IAdminSubstanceInfoService
@@ -52,19 +53,32 @@ namespace HealthStory.Web.Application.AdminSubstance
             return list;
         }
 
-        public SubstanceInfoDto Get(int substanceId)
+        public SubstanceInfoCreateModel Get(int substanceId)
         {
             var item = _context.SubstanceInfo
                 .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted)
-                .Select(x => new SubstanceInfoDto
+                .Select(x => new SubstanceInfoCreateModel
                 {
-                    SubstanceInfoId = x.SubstanceInfoId,
+                    SubstanceDefinitionId = x.SubstanceInfoId,
+                    Name = x.Name,
                     Max = x.Max,
                     Min = x.Min,
-                    Unit = x.Unit.Name,
-                    Name = x.Name
+                    UnitId = x.UnitId
                 }).First();
             return item;
+        }
+
+        public void Update(SubstanceInfoCreateModel substance)
+        {
+            var dbSubstance = _context.SubstanceInfo
+                .First(x => x.SubstanceInfoId == substance.SubstanceDefinitionId);
+
+            dbSubstance.Max = substance.Max;
+            dbSubstance.Min = substance.Min;
+            dbSubstance.Name = substance.Name;
+            dbSubstance.UnitId = substance.UnitId;
+
+            _context.SaveChanges();
         }
 
         public void Delete(int substanceId)

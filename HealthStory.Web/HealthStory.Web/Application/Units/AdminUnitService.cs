@@ -1,6 +1,7 @@
 ﻿using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
 using HealthStory.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,7 @@ namespace HealthStory.Web.Application.AdminUnits
         void Create(AdminUnitsDto unit);
         List<AdminUnitsDto> Get();
         AdminUnitsDto Get(int unitId);
+        void Update(AdminUnitsDto unit); 
         void Delete(int unitId);
     }
 
@@ -53,11 +55,21 @@ namespace HealthStory.Web.Application.AdminUnits
                 .Where(x => x.UnitId == unitId && !x.IsDeleted)
                 .Select(x => new AdminUnitsDto
                 {
-                    UnitId = x.UnitId,
                     Name = x.Name,
                     Shortcut = x.Shortcut
                 }).First();
             return item;
+        }
+
+        public void Update(AdminUnitsDto unit)
+        {
+            var dbUnit = _context.Units
+                .First(x => x.UnitId == unit.UnitId);
+
+            dbUnit.Name = unit.Name;
+            dbUnit.Shortcut = unit.Shortcut;
+
+            _context.SaveChanges();
         }
 
         public void Delete(int unitId)

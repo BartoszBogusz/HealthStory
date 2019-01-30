@@ -32,6 +32,20 @@ namespace HealthStory.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult Edit(int unitId)
+        {
+            var unit = _adminUnitService.Get(unitId);
+            return View(unit);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(AdminUnitsDto model)
+        {
+            _adminUnitService.Update(model);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
         public IActionResult Delete(int id)
         {
             _adminUnitService.Delete(id);

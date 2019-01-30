@@ -1,6 +1,7 @@
 ﻿using HealthStory.Web.Application.AdminSubstance;
+using HealthStory.Web.Application.AdminUnits;
 using HealthStory.Web.Application.Units.SelectList;
-using HealthStory.Web.Models.SubstanceDefinition;
+using HealthStory.Web.Models.SubstanceInfo;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthStory.Web.Controllers
@@ -41,9 +42,27 @@ namespace HealthStory.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public IActionResult Edit(int substanceId)
         {
-            _adminSubstanceInfoService.Delete(id);
+            var substance = _adminSubstanceInfoService.Get(substanceId);
+            var unitSelectList = _unitSelectListProvider.Get();
+            substance.UnitSelectList = unitSelectList;
+            return View(substance);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(SubstanceInfoCreateModel model)
+        {
+            _adminSubstanceInfoService.Update(model);
+            var unitSelectList = _unitSelectListProvider.Get();
+            model.UnitSelectList = unitSelectList;
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int substanceId)
+        {
+            _adminSubstanceInfoService.Delete(substanceId);
             return RedirectToAction("Index");
         }
     }
