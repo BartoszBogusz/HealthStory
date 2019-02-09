@@ -48,6 +48,7 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
                 .Where(x => !x.IsDeleted)
                 .Select(x => new ReadBloodTestInfoViewModel
                 {
+                    BloodTestInfoId = x.BloodTestInfoId,
                     Name = x.Name,
                     Description = x.Description,
                     NumberOfSubstances = x.BloodTestsSubstancesInfo.Where(s => !s.IsDeleted).Count()
