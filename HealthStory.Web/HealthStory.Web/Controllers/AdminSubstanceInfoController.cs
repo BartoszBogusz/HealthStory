@@ -55,7 +55,6 @@ namespace HealthStory.Web.Controllers
         {
             _adminSubstanceInfoService.Update(model);
             var unitSelectList = _unitSelectListProvider.Get();
-            model.UnitSelectList = unitSelectList;
             return RedirectToAction("Index");
         }
 

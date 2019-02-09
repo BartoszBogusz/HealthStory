@@ -55,6 +55,7 @@ namespace HealthStory.Web.Application.AdminUnits
                 .Where(x => x.UnitId == unitId && !x.IsDeleted)
                 .Select(x => new AdminUnitsDto
                 {
+                    UnitId = x.UnitId,
                     Name = x.Name,
                     Shortcut = x.Shortcut
                 }).First();
