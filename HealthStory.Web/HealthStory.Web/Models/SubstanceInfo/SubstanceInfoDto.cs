@@ -1,4 +1,4 @@
-﻿namespace HealthStory.Web.Models.SubstanceDefinition
+﻿namespace HealthStory.Web.Models.SubstanceInfo
 {
     public class SubstanceInfoDto
     {

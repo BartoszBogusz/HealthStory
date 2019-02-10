@@ -1,4 +1,4 @@
-﻿@model IEnumerable<HealthStory.Web.Models.SubstanceDefinition.SubstanceInfoDto>
+﻿@model IEnumerable<HealthStory.Web.Models.SubstanceInfo.SubstanceInfoDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -41,7 +41,10 @@
                 @Html.DisplayFor(modelItem => item.Unit)
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.SubstanceInfoId })
+                @Html.ActionLink("Delete", "Delete", new { substanceId = item.SubstanceInfoId })
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { substanceId = item.SubstanceInfoId })
             </td>
         </tr>
         }

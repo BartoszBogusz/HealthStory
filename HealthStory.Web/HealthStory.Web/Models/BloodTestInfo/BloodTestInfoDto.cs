@@ -1,4 +1,4 @@
-﻿using HealthStory.Web.Models.SubstanceDefinition;
+﻿using HealthStory.Web.Models.SubstanceInfo;
 using System.Collections.Generic;
 
 namespace HealthStory.Web.Models.BloodTestInfo
