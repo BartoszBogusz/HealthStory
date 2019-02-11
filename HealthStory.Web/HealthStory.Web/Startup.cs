@@ -2,9 +2,8 @@
 using HealthStory.Web.Application.AdminSubstance;
 using HealthStory.Web.Application.AdminUnits;
 using HealthStory.Web.Application.AppUserBloodTestValue;
-using HealthStory.Web.Application.Login;
-using HealthStory.Web.Application.Register;
 using HealthStory.Web.Application.Units.SelectList;
+using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,9 +34,6 @@ namespace HealthStory.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
-            services.AddTransient<IRegisterResolver, RegisterResolver>();
-            services.AddTransient<ILoginResolver, LoginResolver>();
             services.AddTransient<IAdminUnitService, AdminUnitService>();
             services.AddTransient<IUnitSelectListProvider, UnitSelectListProvider>();
             services.AddTransient<IAdminSubstanceInfoService, AdminSubstanceInfoService>();
@@ -49,6 +45,10 @@ namespace HealthStory.Web
 
             services.AddDbContext<HealthStoryContext>(options =>
                     options.UseMySql("Server=localhost;Database=HealthStory;User Id=root; Password=admin;"));
+
+            services.AddDefaultIdentity<AppUser>()
+                .AddEntityFrameworkStores<HealthStoryContext>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,10 +61,13 @@ namespace HealthStory.Web
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

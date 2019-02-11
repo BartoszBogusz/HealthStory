@@ -3,14 +3,16 @@ using System;
 using HealthStory.Web.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HealthStory.Web.Migrations
 {
     [DbContext(typeof(HealthStoryContext))]
-    partial class HealthStoryContextModelSnapshot : ModelSnapshot
+    [Migration("20190211070410_Authentication")]
+    partial class Authentication
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,44 +21,18 @@ namespace HealthStory.Web.Migrations
 
             modelBuilder.Entity("HealthStory.Web.Entities.AppUser", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<int>("AppUserId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccessFailedCount");
-
-                    b.Property<string>("ConcurrencyStamp");
 
                     b.Property<DateTime>("DateOfBirth");
 
                     b.Property<string>("Email");
 
-                    b.Property<bool>("EmailConfirmed");
-
-                    b.Property<bool>("LockoutEnabled");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd");
-
                     b.Property<string>("Login");
-
-                    b.Property<string>("NormalizedEmail");
-
-                    b.Property<string>("NormalizedUserName");
 
                     b.Property<string>("Password");
 
-                    b.Property<string>("PasswordHash");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("SecurityStamp");
-
-                    b.Property<bool>("TwoFactorEnabled");
-
-                    b.Property<string>("UserName");
-
-                    b.HasKey("Id");
+                    b.HasKey("AppUserId");
 
                     b.ToTable("AppUsers");
                 });
@@ -66,7 +42,7 @@ namespace HealthStory.Web.Migrations
                     b.Property<int>("AppUserBloodTestValueId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AppUserId");
+                    b.Property<int>("AppUserId");
 
                     b.Property<int>("BloodTestInfoId");
 
@@ -323,7 +299,8 @@ namespace HealthStory.Web.Migrations
                 {
                     b.HasOne("HealthStory.Web.Entities.AppUser", "AppUser")
                         .WithMany("AppUserBloodTestValue")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HealthStory.Web.Entities.BloodTestInfo", "BloodTestInfo")
                         .WithMany("AppUserBloodTestValue")

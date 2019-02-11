@@ -1,11 +1,12 @@
 ﻿using HealthStory.Web.Application.AdminSubstance;
-using HealthStory.Web.Application.AdminUnits;
 using HealthStory.Web.Application.Units.SelectList;
 using HealthStory.Web.Models.SubstanceInfo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthStory.Web.Controllers
 {
+    [Authorize]
     public class AdminSubstanceInfoController : Controller
     {
         private readonly IUnitSelectListProvider _unitSelectListProvider;

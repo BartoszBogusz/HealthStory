@@ -1,11 +1,12 @@
 ﻿using HealthStory.Web.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HealthStory.Web.Infrastructure
 {
-    public class HealthStoryContext : DbContext
+    public class HealthStoryContext : IdentityDbContext
     {
-        public HealthStoryContext(DbContextOptions options) : base(options)
+        public HealthStoryContext(DbContextOptions<HealthStoryContext> options) : base(options)
         {
         }
 
@@ -21,12 +22,6 @@ namespace HealthStory.Web.Infrastructure
             base.OnModelCreating(modelBuilder);
 
             // AppUser
-            modelBuilder.Entity<AppUser>()
-                .HasKey(x => x.AppUserId);
-            modelBuilder.Entity<AppUser>()
-                .Property(f => f.AppUserId)
-                .ValueGeneratedOnAdd();
-
             modelBuilder.Entity<AppUser>()
                 .HasMany(x => x.AppUserBloodTestValue)
                 .WithOne(x => x.AppUser)

@@ -1,9 +1,11 @@
 ﻿using HealthStory.Web.Application.AdminUnits;
 using HealthStory.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthStory.Web.Controllers
 {
+    [Authorize]
     public class AdminUnitController : Controller
     {
         private readonly IAdminUnitService _adminUnitService;
