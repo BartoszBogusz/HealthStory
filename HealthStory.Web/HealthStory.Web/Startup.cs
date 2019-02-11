@@ -9,10 +9,12 @@ using HealthStory.Web.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.UI;
 
 namespace HealthStory.Web
 {
@@ -49,6 +51,10 @@ namespace HealthStory.Web
 
             services.AddDbContext<HealthStoryContext>(options =>
                     options.UseMySql("Server=localhost;Database=HealthStory;User Id=root; Password=admin;"));
+
+            services.AddDefaultIdentity<IdentityUser>()
+                //.AddDefaultUI(UIFramework.Bootstrap4)
+                .AddEntityFrameworkStores<HealthStoryContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

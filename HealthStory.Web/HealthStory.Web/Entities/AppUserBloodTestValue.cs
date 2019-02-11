@@ -5,7 +5,7 @@ namespace HealthStory.Web.Entities
     public class AppUserBloodTestValue
     {
         public int AppUserBloodTestValueId { get; set; }
-        public int AppUserId { get; set; }
+        public string AppUserId { get; set; }
         public int SubstanceInfoId { get; set; }
         public int BloodTestInfoId { get; set; }
         public decimal Value { get; set; }
