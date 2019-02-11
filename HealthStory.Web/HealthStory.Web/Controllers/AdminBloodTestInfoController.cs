@@ -1,10 +1,12 @@
 ﻿using HealthStory.Web.Application.AdminBloodTestInfo;
 using HealthStory.Web.Application.AdminSubstance;
 using HealthStory.Web.Models.BloodTestInfo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthStory.Web.Controllers
 {
+    [Authorize]
     public class AdminBloodTestInfoController : Controller
     {
         private readonly IAdminBloodTestInfoService _adminBloodTestService;
