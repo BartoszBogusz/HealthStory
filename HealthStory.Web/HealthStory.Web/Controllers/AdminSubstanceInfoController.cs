@@ -3,6 +3,8 @@ using HealthStory.Web.Application.Units.SelectList;
 using HealthStory.Web.Models.SubstanceInfo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Controllers
 {
@@ -19,50 +21,50 @@ namespace HealthStory.Web.Controllers
             _adminSubstanceInfoService = adminSubstanceInfoService;
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult<List<SubstanceInfoDto>>> Index()
         {
-            var model = _adminSubstanceInfoService.Get();
+            var model = await _adminSubstanceInfoService.GetAsync();
             return View(model);
         }
 
-        public IActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            var unitList = _unitSelectListProvider.Get();
+            var unitList = _unitSelectListProvider.GetAsync();
             var model = new SubstanceInfoCreateModel
             {
-                UnitSelectList = unitList
+                UnitSelectList = await unitList
             };
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create(SubstanceInfoCreateModel model)
+        public async Task<ActionResult> Create(SubstanceInfoCreateModel model)
         {
-            _adminSubstanceInfoService.Create(model);
+            await _adminSubstanceInfoService.CreateAsync(model);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Edit(int substanceId)
+        public async Task<ActionResult> Edit(int substanceId)
         {
-            var substance = _adminSubstanceInfoService.Get(substanceId);
-            var unitSelectList = _unitSelectListProvider.Get();
-            substance.UnitSelectList = unitSelectList;
+            var substance = await _adminSubstanceInfoService.GetAsync(substanceId);
+            var unitSelectList = _unitSelectListProvider.GetAsync();
+            substance.UnitSelectList = await unitSelectList;
             return View(substance);
         }
 
         [HttpPost]
-        public IActionResult Edit(SubstanceInfoCreateModel model)
+        public async Task<ActionResult> Edit(SubstanceInfoCreateModel model)
         {
-            _adminSubstanceInfoService.Update(model);
-            var unitSelectList = _unitSelectListProvider.Get();
+            await _adminSubstanceInfoService.UpdateAsync(model);
+            var unitSelectList = _unitSelectListProvider.GetAsync();
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Delete(int substanceId)
+        public async Task<ActionResult> Delete(int substanceId)
         {
-            _adminSubstanceInfoService.Delete(substanceId);
+            await _adminSubstanceInfoService.DeleteAsync(substanceId);
             return RedirectToAction("Index");
         }
     }

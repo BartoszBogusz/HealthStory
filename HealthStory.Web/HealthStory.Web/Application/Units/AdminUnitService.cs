@@ -1,19 +1,20 @@
 ﻿using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
 using HealthStory.Web.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Application.AdminUnits
 {
     public interface IAdminUnitService
     {
-        void Create(AdminUnitsDto unit);
-        List<AdminUnitsDto> Get();
-        AdminUnitsDto Get(int unitId);
-        void Update(AdminUnitsDto unit); 
-        void Delete(int unitId);
+        Task CreateAsync(AdminUnitsDto unit);
+        Task<List<AdminUnitsDto>> GetAsync();
+        Task<AdminUnitsDto> GetAsync(int unitId);
+        Task UpdateAsync(AdminUnitsDto unit); 
+        Task DeleteAsync(int unitId);
     }
 
     public class AdminUnitService : IAdminUnitService
@@ -25,18 +26,18 @@ namespace HealthStory.Web.Application.AdminUnits
             _context = context;
         }
 
-        public void Create(AdminUnitsDto unit)
+        public async Task CreateAsync(AdminUnitsDto unit)
         {
             var dbModel = new Unit
             {
                 Name = unit.Name,
                 Shortcut = unit.Shortcut
             };
-            _context.Units.Add(dbModel);
-            _context.SaveChanges();
+            await _context.Units.AddAsync(dbModel);
+            await _context.SaveChangesAsync();
         }
 
-        public List<AdminUnitsDto> Get()
+        public Task<List<AdminUnitsDto>> GetAsync()
         {
             var list = _context.Units
                 .Where(x=> !x.IsDeleted)
@@ -45,11 +46,12 @@ namespace HealthStory.Web.Application.AdminUnits
                 UnitId = x.UnitId,
                 Name = x.Name,
                 Shortcut = x.Shortcut
-            }).ToList();
+            }).ToListAsync();
+
             return list;
         }
 
-        public AdminUnitsDto Get(int unitId)
+        public Task<AdminUnitsDto> GetAsync(int unitId)
         {
             var item = _context.Units
                 .Where(x => x.UnitId == unitId && !x.IsDeleted)
@@ -58,11 +60,11 @@ namespace HealthStory.Web.Application.AdminUnits
                     UnitId = x.UnitId,
                     Name = x.Name,
                     Shortcut = x.Shortcut
-                }).First();
+                }).FirstAsync();
             return item;
         }
 
-        public void Update(AdminUnitsDto unit)
+        public async Task UpdateAsync(AdminUnitsDto unit)
         {
             var dbUnit = _context.Units
                 .First(x => x.UnitId == unit.UnitId);
@@ -70,17 +72,17 @@ namespace HealthStory.Web.Application.AdminUnits
             dbUnit.Name = unit.Name;
             dbUnit.Shortcut = unit.Shortcut;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int unitId)
+        public async Task DeleteAsync(int unitId)
         {
             var unit = _context.Units
                 .Where(x => x.UnitId == unitId && !x.IsDeleted).First();
 
             unit.IsDeleted = true;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

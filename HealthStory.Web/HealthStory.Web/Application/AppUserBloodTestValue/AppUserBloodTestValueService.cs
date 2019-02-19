@@ -1,15 +1,17 @@
 ﻿using HealthStory.Web.Infrastructure;
 using HealthStory.Web.Models.AppUserBloodTestValue;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Application.AppUserBloodTestValue
 {
     public interface IAppUserBloodTestValueService
     {
-        void Delete(int appUserBloodTestValueId);
-        List<AppUserBloodTestValueViewModel> Get();
-        AppUserBloodTestValueViewModel Get(int appUserBloodTestValueId);
+        Task DeleteAsync(int appUserBloodTestValueId);
+        Task<List<AppUserBloodTestValueViewModel>> GetAsync();
+        Task<AppUserBloodTestValueViewModel> GetAsync(int appUserBloodTestValueId);
     }
 
     public class AppUserBloodTestValueService : IAppUserBloodTestValueService
@@ -21,7 +23,7 @@ namespace HealthStory.Web.Application.AppUserBloodTestValue
             _context = context;
         }
 
-        public List<AppUserBloodTestValueViewModel> Get()
+        public Task<List<AppUserBloodTestValueViewModel>> GetAsync()
         {
             var list = _context.AppUserBloodTestValues
                 .Where(x => !x.IsDeleted)
@@ -31,12 +33,12 @@ namespace HealthStory.Web.Application.AppUserBloodTestValue
                     Value = x.Value,
                     CreateDate = x.CreateDate,
                 }
-                ).ToList();
+                ).ToListAsync();
 
             return list;
         }
 
-        public void Delete(int appUserBloodTestValueId)
+        public async Task DeleteAsync(int appUserBloodTestValueId)
         {
             var appUserBloodTestValue = _context.AppUserBloodTestValues
                 .Where(x => x.AppUserBloodTestValueId == appUserBloodTestValueId && !x.IsDeleted)
@@ -44,10 +46,10 @@ namespace HealthStory.Web.Application.AppUserBloodTestValue
 
             appUserBloodTestValue.IsDeleted = true;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public AppUserBloodTestValueViewModel Get(int appUserBloodTestValueId)
+        public Task<AppUserBloodTestValueViewModel> GetAsync(int appUserBloodTestValueId)
         {
             var item = _context.AppUserBloodTestValues
                 .Where(x => x.AppUserBloodTestValueId == appUserBloodTestValueId && !x.IsDeleted)
@@ -55,7 +57,7 @@ namespace HealthStory.Web.Application.AppUserBloodTestValue
                 {
                     Value = x.Value,
                     CreateDate = x.CreateDate
-                }).First();
+                }).FirstAsync();
 
             return item;
 
