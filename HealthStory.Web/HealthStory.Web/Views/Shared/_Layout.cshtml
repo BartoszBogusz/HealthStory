@@ -30,16 +30,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">WebApplication7</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">HealthStory</a>
             </div>
             <div class="navbar-collapse collapse">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Units", "Index", "AdminUnit")</li>
-                        <li>@Html.ActionLink("Substance Info", "Index", "AdminSubstanceInfo")</li>
-                        <li>@Html.ActionLink("BloodTestInfo", "Index", "AdminBloodTestInfo")</li>
-                    </ul>
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Units", "Index", "AdminUnit")</li>
+                    <li>@Html.ActionLink("Substance Info", "Index", "AdminSubstanceInfo")</li>
+                    <li>@Html.ActionLink("BloodTestInfo", "Index", "AdminBloodTestInfo")</li>
+                </ul>
                 }
                 <partial name="_LoginPartial" />
             </div>
