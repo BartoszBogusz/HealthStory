@@ -6,7 +6,7 @@ namespace HealthStory.Web.Application.Dashboard.AvailableTest
 {
     public interface IDashboardAvailableTestsProvider
     {
-        List<ReadBloodTestInfoViewModel> Get();
+        List<DashboardBloodTestViewModel> Get();
     }
 
     public class DashboardAvailableTestsProvider : IDashboardAvailableTestsProvider
@@ -18,11 +18,11 @@ namespace HealthStory.Web.Application.Dashboard.AvailableTest
             _context = context;
         }
 
-        public List<ReadBloodTestInfoViewModel> Get()
+        public List<DashboardBloodTestViewModel> Get()
         {
             var list = _context.BloodTestsInfo
                 .Where(x => !x.IsDeleted)
-                .Select(x => new ReadBloodTestInfoViewModel
+                .Select(x => new DashboardBloodTestViewModel
                 {
                     BloodTestInfoId = x.BloodTestInfoId,
                     Name = x.Name
