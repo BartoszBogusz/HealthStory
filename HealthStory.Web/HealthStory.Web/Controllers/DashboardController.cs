@@ -1,4 +1,5 @@
 ﻿using HealthStory.Web.Application.AdminBloodTestInfo;
+using HealthStory.Web.Application.Dashboard.AvailableTest;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,16 +8,16 @@ namespace HealthStory.Web.Controllers
     [Authorize]
     public class DashboardController : Controller
     {
-        private readonly IAdminBloodTestInfoService _adminBloodTestService;
+        private readonly IDashboardAvailableTestsProvider _dashboardAvailableTestsProvider;
 
-        public DashboardController(IAdminBloodTestInfoService adminBloodTestInfoService)
+        public DashboardController(IDashboardAvailableTestsProvider dashboardAvailableTestsProvider)
         {
-            _adminBloodTestService = adminBloodTestInfoService;
+            _dashboardAvailableTestsProvider = dashboardAvailableTestsProvider;
         }
 
         public IActionResult Index()
         {
-            var model = _adminBloodTestService.Get();
+            var model = _dashboardAvailableTestsProvider.Get();
             return View(model);
         }
     }
