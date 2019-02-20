@@ -72,8 +72,8 @@ namespace HealthStory.Web.Application.AdminSubstance
 
         public async Task UpdateAsync(SubstanceInfoCreateModel substance)
         {
-            var dbSubstance = _context.SubstanceInfo
-                .First(x => x.SubstanceInfoId == substance.SubstanceDefinitionId);
+            var dbSubstance = await _context.SubstanceInfo
+                .FirstAsync(x => x.SubstanceInfoId == substance.SubstanceDefinitionId);
 
             dbSubstance.Max = substance.Max;
             dbSubstance.Min = substance.Min;
@@ -85,8 +85,8 @@ namespace HealthStory.Web.Application.AdminSubstance
 
         public async Task DeleteAsync(int substanceId)
         {
-            var unit = _context.SubstanceInfo
-                .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted).First();
+            var unit = await _context.SubstanceInfo
+                .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted).FirstAsync();
 
             unit.IsDeleted = true;
 

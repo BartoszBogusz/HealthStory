@@ -66,8 +66,8 @@ namespace HealthStory.Web.Application.AdminUnits
 
         public async Task UpdateAsync(AdminUnitsDto unit)
         {
-            var dbUnit = _context.Units
-                .First(x => x.UnitId == unit.UnitId);
+            var dbUnit = await _context.Units
+                .FirstAsync(x => x.UnitId == unit.UnitId);
 
             dbUnit.Name = unit.Name;
             dbUnit.Shortcut = unit.Shortcut;
@@ -77,8 +77,8 @@ namespace HealthStory.Web.Application.AdminUnits
 
         public async Task DeleteAsync(int unitId)
         {
-            var unit = _context.Units
-                .Where(x => x.UnitId == unitId && !x.IsDeleted).First();
+            var unit = await _context.Units
+                .Where(x => x.UnitId == unitId && !x.IsDeleted).FirstAsync();
 
             unit.IsDeleted = true;
 

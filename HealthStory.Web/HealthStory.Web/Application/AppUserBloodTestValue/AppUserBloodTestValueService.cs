@@ -40,9 +40,9 @@ namespace HealthStory.Web.Application.AppUserBloodTestValue
 
         public async Task DeleteAsync(int appUserBloodTestValueId)
         {
-            var appUserBloodTestValue = _context.AppUserBloodTestValues
+            var appUserBloodTestValue = await _context.AppUserBloodTestValues
                 .Where(x => x.AppUserBloodTestValueId == appUserBloodTestValueId && !x.IsDeleted)
-                .First();
+                .FirstAsync();
 
             appUserBloodTestValue.IsDeleted = true;
 

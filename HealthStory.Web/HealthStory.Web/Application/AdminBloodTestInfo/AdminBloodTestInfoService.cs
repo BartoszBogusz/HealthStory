@@ -72,8 +72,8 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
 
         public async Task UpdateAsync(BloodTestInfoDto bloodTest)
         {
-            var dbBloodTest = _context.BloodTestsInfo
-                .First(x => x.BloodTestInfoId == bloodTest.BloodTestId);
+            var dbBloodTest = await _context.BloodTestsInfo
+                .FirstAsync(x => x.BloodTestInfoId == bloodTest.BloodTestId);
 
             dbBloodTest.Name = bloodTest.Name;
             dbBloodTest.Description = bloodTest.Description;
@@ -106,8 +106,8 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
 
         public async Task DeleteAsync(int bloodTestId)
         {
-            var bloodTest = _context.BloodTestsInfo
-                .Where(x => x.BloodTestInfoId == bloodTestId).First();
+            var bloodTest = await _context.BloodTestsInfo
+                .Where(x => x.BloodTestInfoId == bloodTestId).FirstAsync();
 
             bloodTest.IsDeleted = true;
 
