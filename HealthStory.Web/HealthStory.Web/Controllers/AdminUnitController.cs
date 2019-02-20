@@ -2,6 +2,8 @@
 using HealthStory.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Controllers
 {
@@ -15,9 +17,9 @@ namespace HealthStory.Web.Controllers
             _adminUnitService = adminUnitService;
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult<List<AdminUnitsDto>>> Index()
         {
-            var list = _adminUnitService.Get();
+            var list = await _adminUnitService.GetAsync();
             return View(list);
         }
 
@@ -27,30 +29,30 @@ namespace HealthStory.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AdminUnitsDto model)
+        public async Task<ActionResult> Create(AdminUnitsDto model)
         {
-            _adminUnitService.Create(model);
+            await _adminUnitService.CreateAsync(model);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Edit(int unitId)
+        public async Task<ActionResult> Edit(int unitId)
         {
-            var unit = _adminUnitService.Get(unitId);
+            var unit = await _adminUnitService.GetAsync(unitId);
             return View(unit);
         }
 
         [HttpPost]
-        public IActionResult Edit(AdminUnitsDto model)
+        public async Task<ActionResult> Edit(AdminUnitsDto model)
         {
-            _adminUnitService.Update(model);
+            await _adminUnitService.UpdateAsync(model);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _adminUnitService.Delete(id);
+            await _adminUnitService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
     }

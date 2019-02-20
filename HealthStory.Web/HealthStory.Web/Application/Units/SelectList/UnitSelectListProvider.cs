@@ -1,13 +1,15 @@
 ﻿using HealthStory.Web.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Application.Units.SelectList
 {
     public interface IUnitSelectListProvider
     {
-        List<SelectListItem> Get();
+        Task<List<SelectListItem>> GetAsync();
     }
 
     public class UnitSelectListProvider : IUnitSelectListProvider
@@ -19,13 +21,13 @@ namespace HealthStory.Web.Application.Units.SelectList
             _context = context;
         }
 
-        public List<SelectListItem> Get()
+        public Task<List<SelectListItem>> GetAsync()
         {
             var list = _context.Units.Select(x => new SelectListItem
             {
                 Text = x.Name.ToString(),
                 Value = x.UnitId.ToString()
-            }).ToList();
+            }).ToListAsync();
             return list;
         }
     }

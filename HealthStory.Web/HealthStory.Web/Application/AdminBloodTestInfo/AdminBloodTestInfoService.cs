@@ -1,19 +1,21 @@
 ﻿using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
 using HealthStory.Web.Models.BloodTestInfo;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Application.AdminBloodTestInfo
 {
     public interface IAdminBloodTestInfoService
     {
-        void Create(CreateBloodTestInfoViewModel bloodTest);
-        List<ReadBloodTestInfoViewModel> Get();
-        BloodTestInfoDto Get(int bloodTestId);
-        void Update(BloodTestInfoDto bloodTest);
-        void Delete(int bloodTestId);
+        Task CreateAsync(CreateBloodTestInfoViewModel bloodTest);
+        Task<List<ReadBloodTestInfoViewModel>> GetAsync();
+        Task<BloodTestInfoDto> GetAsync(int bloodTestId);
+        Task UpdateAsync(BloodTestInfoDto bloodTest);
+        Task DeleteAsync(int bloodTestId);
     }
 
     public class AdminBloodTestInfoService : IAdminBloodTestInfoService
@@ -25,7 +27,7 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
             _context = context;
         }
 
-        public void Create(CreateBloodTestInfoViewModel bloodTest)
+        public async Task CreateAsync(CreateBloodTestInfoViewModel bloodTest)
         {
             var newBloodTest = new BloodTestInfo
             {
@@ -37,12 +39,11 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
                     SubstanceInfoId = x.SubstanceInfoId
                 }).ToList()
             };
-            _context.BloodTestsInfo.Add(newBloodTest);
-
-            _context.SaveChanges();
+            await _context.BloodTestsInfo.AddAsync(newBloodTest);
+            await _context.SaveChangesAsync();
         }
 
-        public List<ReadBloodTestInfoViewModel> Get()
+        public Task<List<ReadBloodTestInfoViewModel>> GetAsync()
         {
             var list = _context.BloodTestsInfo
                 .Where(x => !x.IsDeleted)
@@ -52,11 +53,11 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
                     Name = x.Name,
                     Description = x.Description,
                     NumberOfSubstances = x.BloodTestsSubstancesInfo.Where(s => !s.IsDeleted).Count()
-                }).ToList();
+                }).ToListAsync();
             return list;
         }
 
-        public BloodTestInfoDto Get(int bloodTestId)
+        public Task<BloodTestInfoDto> GetAsync(int bloodTestId)
         {
             var item = _context.BloodTestsInfo
                  .Where(x => x.BloodTestInfoId == bloodTestId && !x.IsDeleted)
@@ -65,14 +66,14 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
                      BloodTestId = x.BloodTestInfoId,
                      Name = x.Name,
                      Description = x.Description
-                 }).First();
+                 }).FirstAsync();
             return item;
         }
 
-        public void Update(BloodTestInfoDto bloodTest)
+        public async Task UpdateAsync(BloodTestInfoDto bloodTest)
         {
-            var dbBloodTest = _context.BloodTestsInfo
-                .First(x => x.BloodTestInfoId == bloodTest.BloodTestId);
+            var dbBloodTest = await _context.BloodTestsInfo
+                .FirstAsync(x => x.BloodTestInfoId == bloodTest.BloodTestId);
 
             dbBloodTest.Name = bloodTest.Name;
             dbBloodTest.Description = bloodTest.Description;
@@ -91,7 +92,7 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
                 SubstanceInfoId = x
             }).ToList();
 
-            _context.BloodTestsSubstancesInfo.AddRange(toAdd);
+            await _context.BloodTestsSubstancesInfo.AddRangeAsync(toAdd);
 
             var toRemoveIds = substancesInDb.Except(newSubstances);
 
@@ -100,17 +101,17 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
                 .ToList();
 
             _context.BloodTestsSubstancesInfo.RemoveRange(toRemove);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int bloodTestId)
+        public async Task DeleteAsync(int bloodTestId)
         {
-            var bloodTest = _context.BloodTestsInfo
-                .Where(x => x.BloodTestInfoId == bloodTestId).First();
+            var bloodTest = await _context.BloodTestsInfo
+                .Where(x => x.BloodTestInfoId == bloodTestId).FirstAsync();
 
             bloodTest.IsDeleted = true;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

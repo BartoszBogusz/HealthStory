@@ -3,6 +3,8 @@ using HealthStory.Web.Application.AdminSubstance;
 using HealthStory.Web.Models.BloodTestInfo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Controllers
 {
@@ -19,44 +21,44 @@ namespace HealthStory.Web.Controllers
             _adminSubstanceInfoService = adminSubstanceInfoService;
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult<List<BloodTestInfoDto>>> Index()
         {
-            var model = _adminBloodTestService.Get();
+            var model = await _adminBloodTestService.GetAsync();
             return View(model);
         }
 
-        public IActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            var substanceList = _adminSubstanceInfoService.GetSelectListItems();
+            var substanceList = await _adminSubstanceInfoService.GetSelectListItemsAsync();
             ViewBag.SubstanceList = substanceList;
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(CreateBloodTestInfoViewModel model)
+        public async Task<ActionResult> Create(CreateBloodTestInfoViewModel model)
         {
-            _adminBloodTestService.Create(model);
+            await _adminBloodTestService.CreateAsync(model);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Edit(int bloodTestId)
+        public async Task<ActionResult> Edit(int bloodTestId)
         {
-            var bloodTest = _adminBloodTestService.Get(bloodTestId);
+            var bloodTest = await _adminBloodTestService.GetAsync(bloodTestId);
             return View(bloodTest);
         }
 
         [HttpPost]
-        public IActionResult Edit(BloodTestInfoDto model)
+        public async Task<ActionResult> Edit(BloodTestInfoDto model)
         {
-            _adminBloodTestService.Update(model);
+            await _adminBloodTestService.UpdateAsync(model);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            _adminBloodTestService.Delete(id);
+            await _adminBloodTestService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
     }

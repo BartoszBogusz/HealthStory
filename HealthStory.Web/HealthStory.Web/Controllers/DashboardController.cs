@@ -1,7 +1,8 @@
-﻿using HealthStory.Web.Application.AdminBloodTestInfo;
-using HealthStory.Web.Application.Dashboard.AvailableTest;
+﻿using HealthStory.Web.Application.Dashboard.AvailableTest;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Controllers
 {
@@ -15,9 +16,9 @@ namespace HealthStory.Web.Controllers
             _dashboardAvailableTestsProvider = dashboardAvailableTestsProvider;
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult<List<DashboardBloodTestViewModel>>> Index()
         {
-            var model = _dashboardAvailableTestsProvider.Get();
+            var model = await _dashboardAvailableTestsProvider.GetAsync();
             return View(model);
         }
     }

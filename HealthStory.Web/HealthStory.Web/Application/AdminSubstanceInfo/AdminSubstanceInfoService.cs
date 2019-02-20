@@ -2,19 +2,21 @@
 using HealthStory.Web.Infrastructure;
 using HealthStory.Web.Models.SubstanceInfo;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Application.AdminSubstance
 {
     public interface IAdminSubstanceInfoService
     {
-        void Create(SubstanceInfoCreateModel substance);
-        List<SubstanceInfoDto> Get();
-        List<SelectListItem> GetSelectListItems();
-        SubstanceInfoCreateModel Get(int substanceId);
-        void Update(SubstanceInfoCreateModel substance);
-        void Delete(int substanceId);
+        Task CreateAsync(SubstanceInfoCreateModel substance);
+        Task<List<SubstanceInfoDto>> GetAsync();
+        Task<List<SelectListItem>> GetSelectListItemsAsync();
+        Task<SubstanceInfoCreateModel> GetAsync(int substanceId);
+        Task UpdateAsync(SubstanceInfoCreateModel substance);
+        Task DeleteAsync(int substanceId);
     }
     public class AdminSubstanceInfoService : IAdminSubstanceInfoService
     {
@@ -25,7 +27,7 @@ namespace HealthStory.Web.Application.AdminSubstance
             _context = context;
         }
 
-        public void Create(SubstanceInfoCreateModel substance)
+        public async Task CreateAsync(SubstanceInfoCreateModel substance)
         {
             var newSubstance = new SubstanceInfo
             {
@@ -34,11 +36,11 @@ namespace HealthStory.Web.Application.AdminSubstance
                 Name = substance.Name,
                 UnitId = substance.UnitId
             };
-            _context.SubstanceInfo.Add(newSubstance);
-            _context.SaveChanges();
+            await _context.SubstanceInfo.AddAsync(newSubstance);
+            await _context.SaveChangesAsync();
         }
 
-        public List<SubstanceInfoDto> Get()
+        public Task<List<SubstanceInfoDto>> GetAsync()
         {
             var list = _context.SubstanceInfo
                 .Where(x => !x.IsDeleted)
@@ -49,11 +51,11 @@ namespace HealthStory.Web.Application.AdminSubstance
                 Min = x.Min,
                 Unit = x.Unit.Name,
                 Name = x.Name
-            }).ToList();
+            }).ToListAsync();
             return list;
         }
 
-        public SubstanceInfoCreateModel Get(int substanceId)
+        public Task<SubstanceInfoCreateModel> GetAsync(int substanceId)
         {
             var item = _context.SubstanceInfo
                 .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted)
@@ -64,40 +66,42 @@ namespace HealthStory.Web.Application.AdminSubstance
                     Max = x.Max,
                     Min = x.Min,
                     UnitId = x.UnitId
-                }).First();
+                }).FirstAsync();
             return item;
         }
 
-        public void Update(SubstanceInfoCreateModel substance)
+        public async Task UpdateAsync(SubstanceInfoCreateModel substance)
         {
-            var dbSubstance = _context.SubstanceInfo
-                .First(x => x.SubstanceInfoId == substance.SubstanceDefinitionId);
+            var dbSubstance = await _context.SubstanceInfo
+                .FirstAsync(x => x.SubstanceInfoId == substance.SubstanceDefinitionId);
 
             dbSubstance.Max = substance.Max;
             dbSubstance.Min = substance.Min;
             dbSubstance.Name = substance.Name;
             dbSubstance.UnitId = substance.UnitId;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int substanceId)
+        public async Task DeleteAsync(int substanceId)
         {
-            var unit = _context.SubstanceInfo
-                .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted).First();
+            var unit = await _context.SubstanceInfo
+                .Where(x => x.SubstanceInfoId == substanceId && !x.IsDeleted).FirstAsync();
 
             unit.IsDeleted = true;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public List<SelectListItem> GetSelectListItems()
+        public Task<List<SelectListItem>> GetSelectListItemsAsync()
         {
-            var substancesList = _context.SubstanceInfo.Select(x => new SelectListItem
+            var substancesList = _context.SubstanceInfo
+                .Where(x => !x.IsDeleted)
+                .Select(x => new SelectListItem
             {
                 Text = x.Name,
                 Value = x.SubstanceInfoId.ToString()
-            }).ToList();
+            }).ToListAsync();
             return substancesList;
         }
     }

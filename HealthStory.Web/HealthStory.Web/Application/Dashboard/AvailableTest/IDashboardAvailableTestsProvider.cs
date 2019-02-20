@@ -1,12 +1,14 @@
 ﻿using HealthStory.Web.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace HealthStory.Web.Application.Dashboard.AvailableTest
 {
     public interface IDashboardAvailableTestsProvider
     {
-        List<DashboardBloodTestViewModel> Get();
+        Task<List<DashboardBloodTestViewModel>> GetAsync();
     }
 
     public class DashboardAvailableTestsProvider : IDashboardAvailableTestsProvider
@@ -18,7 +20,7 @@ namespace HealthStory.Web.Application.Dashboard.AvailableTest
             _context = context;
         }
 
-        public List<DashboardBloodTestViewModel> Get()
+        public Task<List<DashboardBloodTestViewModel>> GetAsync()
         {
             var list = _context.BloodTestsInfo
                 .Where(x => !x.IsDeleted)
@@ -26,7 +28,7 @@ namespace HealthStory.Web.Application.Dashboard.AvailableTest
                 {
                     BloodTestInfoId = x.BloodTestInfoId,
                     Name = x.Name
-                }).ToList();
+                }).ToListAsync();
             return list;
         }
     }
