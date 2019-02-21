@@ -30,7 +30,8 @@ namespace HealthStory.Web.Application.BloodTest.User
                   Description = x.Description,
                   Substances = x.BloodTestsSubstancesInfo.Select(s => new UserBloodTestSubstanceDto
                   {
-                      Name = s.SubstanceInfo.Name,
+                      SubstanceInfoId = s.SubstanceInfo.SubstanceInfoId,
+                      Name = s.SubstanceInfo.Name
                   }).ToList()
               }).FirstAsync();
             return item;
