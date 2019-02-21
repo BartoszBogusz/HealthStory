@@ -15,7 +15,7 @@ namespace HealthStory.Web.Controllers
 
         public async Task<IActionResult> New(int bloodTestId)
         {
-            var bloodTest = await _userBloodTestProvider.GetAsync(1);
+            var bloodTest = await _userBloodTestProvider.GetAsync(bloodTestId);
             return View(bloodTest);
         }
     }
