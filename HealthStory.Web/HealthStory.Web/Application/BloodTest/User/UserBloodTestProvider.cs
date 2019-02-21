@@ -12,9 +12,9 @@ namespace HealthStory.Web.Application.BloodTest.User
     }
     public class UserBloodTestProvider : IUserBloodTestProvider
     {
-        private readonly AdminBloodTestInfoService _adminBloodTestInfoService;
+        private readonly IAdminBloodTestInfoService _adminBloodTestInfoService;
 
-        public UserBloodTestProvider(AdminBloodTestInfoService adminBloodTestInfoService)
+        public UserBloodTestProvider(IAdminBloodTestInfoService adminBloodTestInfoService)
         {
             _adminBloodTestInfoService = adminBloodTestInfoService;
         }
