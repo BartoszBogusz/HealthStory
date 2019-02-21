@@ -2,6 +2,7 @@
 using HealthStory.Web.Application.AdminSubstance;
 using HealthStory.Web.Application.AdminUnits;
 using HealthStory.Web.Application.AppUserBloodTestValue;
+using HealthStory.Web.Application.BloodTest.User;
 using HealthStory.Web.Application.Dashboard.AvailableTest;
 using HealthStory.Web.Application.Units.SelectList;
 using HealthStory.Web.Entities;
@@ -41,6 +42,7 @@ namespace HealthStory.Web
             services.AddTransient<IAdminBloodTestInfoService, AdminBloodTestInfoService>();
             services.AddTransient<IAppUserBloodTestValueService, AppUserBloodTestValueService>();
             services.AddTransient<IDashboardAvailableTestsProvider, DashboardAvailableTestsProvider>();
+            services.AddTransient<IUserBloodTestProvider, UserBloodTestProvider>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
