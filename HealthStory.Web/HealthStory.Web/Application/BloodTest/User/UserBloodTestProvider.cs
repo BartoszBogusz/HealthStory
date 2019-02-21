@@ -1,6 +1,6 @@
-﻿using HealthStory.Web.Application.AdminBloodTestInfo;
+﻿using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
-using HealthStory.Web.Models.BloodTestInfo;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,18 +12,28 @@ namespace HealthStory.Web.Application.BloodTest.User
     }
     public class UserBloodTestProvider : IUserBloodTestProvider
     {
-        private readonly IAdminBloodTestInfoService _adminBloodTestInfoService;
+        private readonly HealthStoryContext _context;
 
-        public UserBloodTestProvider(IAdminBloodTestInfoService adminBloodTestInfoService)
+        public UserBloodTestProvider(HealthStoryContext context)
         {
-            _adminBloodTestInfoService = adminBloodTestInfoService;
+            _context = context;
         }
 
-        public async Task<UserBloodTestDto> GetAsync(int bloodTestInfoId)
-        {           
-            var bloodTestInfo = await _adminBloodTestInfoService.GetAsync(bloodTestInfoId);
-            var userBloodTest = new UserBloodTestDto(bloodTestInfo);
-            return userBloodTest;
+        public Task<UserBloodTestDto> GetAsync(int bloodTestInfoId)
+        {
+            var item = _context.BloodTestsInfo
+              .Where(x => x.BloodTestInfoId == bloodTestInfoId && !x.IsDeleted)
+              .Select(x => new UserBloodTestDto
+              {
+                  BloodTestId = x.BloodTestInfoId,
+                  Name = x.Name,
+                  Description = x.Description,
+                  Substances = x.BloodTestsSubstancesInfo.Select(s => new UserBloodTestSubstanceDto
+                  {
+                      Name = s.SubstanceInfo.Name,
+                  }).ToList()
+              }).FirstAsync();
+            return item;
         }
     }
 }

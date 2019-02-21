@@ -2,15 +2,15 @@
 {
     public class UserBloodTestSubstanceDto
     {
-        public UserBloodTestSubstanceDto(int substanceInfoId, string name, decimal value)
-        {
-            SubstanceInfoId = substanceInfoId;
-            Name = name;
-            Value = value;
-        }
+        //public UserBloodTestSubstanceDto(int substanceInfoId, string name, decimal value)
+        //{
+        //    SubstanceInfoId = substanceInfoId;
+        //    Name = name;
+        //    Value = value;
+        //}
 
-        public int SubstanceInfoId { get; }
-        public string Name { get; }
-        public decimal Value { get; }
+        public int SubstanceInfoId { get; set; }
+        public string Name { get; set; }
+        public decimal Value { get; set; }
     }
 }
