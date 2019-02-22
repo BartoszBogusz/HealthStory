@@ -1,0 +1,18 @@
+﻿@model HealthStory.Web.Application.BloodTest.User.UserBloodTestDto
+@{
+    ViewData["Title"] = "Substances";
+}
+
+@foreach (var item in Model.Substances)
+{
+    @Html.HiddenFor(x => item.SubstanceInfoId)
+
+    <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.Value, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+        </tr>
+}

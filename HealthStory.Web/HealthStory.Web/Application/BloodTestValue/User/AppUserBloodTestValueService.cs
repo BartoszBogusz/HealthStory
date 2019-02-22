@@ -1,11 +1,15 @@
-﻿using HealthStory.Web.Infrastructure;
+﻿using HealthStory.Web.Application.BloodTest.User;
+using HealthStory.Web.Entities;
+using HealthStory.Web.Infrastructure;
 using HealthStory.Web.Models.AppUserBloodTestValue;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HealthStory.Web.Application.AppUserBloodTestValue
+
+namespace HealthStory.Web.Application.BloodTestValue.User
 {
     public interface IAppUserBloodTestValueService
     {
@@ -62,5 +66,7 @@ namespace HealthStory.Web.Application.AppUserBloodTestValue
             return item;
 
         }
+
+        
     }
 }

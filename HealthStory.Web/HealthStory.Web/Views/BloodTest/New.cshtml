@@ -8,27 +8,26 @@
 <h2>@Html.DisplayFor(x => x.Description)</h2>
 <h3>List of substances</h3>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Value
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Substances) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.EditorFor(modelItem => item.Value, new { htmlAttributes = new { @class = "form-control" } })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<form method="post" asp-action="Create">
+
+    @Html.HiddenFor(x => x.BloodTestId)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Value
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <partial name="_Substances" />
+        </tbody>
+    </table>
+
+    <section class="row">
+        <button type="submit" class="btn btn-success">Save</button>
+    </section>
+</form>
