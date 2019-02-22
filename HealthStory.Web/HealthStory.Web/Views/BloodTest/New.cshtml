@@ -23,7 +23,19 @@
             </tr>
         </thead>
         <tbody>
-            <partial name="_Substances" />
+            @for (int i = 0; i < Model.Substances.Count; i++)
+            {
+                <input name="Substances[@i].SubstanceInfoId" type="hidden" value="@Model.Substances[i].SubstanceInfoId">
+                <tr>
+                    <td>
+                        @Model.Substances[i].Name
+                    </td>
+                    <td>
+                        <input type="number" name="Substances[@i].Value" class="form-control" />
+                    </td>
+                </tr>
+
+            }
         </tbody>
     </table>
 

@@ -1,5 +1,8 @@
 ﻿using HealthStory.Web.Application.BloodTest.User;
+using HealthStory.Web.Application.BloodTest.User.History;
+using HealthStory.Web.Application.Dashboard.AvailableTest;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -9,12 +12,18 @@ namespace HealthStory.Web.Controllers
     {
         private readonly IUserBloodTestProvider _userBloodTestProvider;
         private readonly IUserBloodTestSaver _userBloodTestSaver;
+        private readonly IDashboardAvailableTestsProvider _dashboardAvailableTestsProvider;
+        private readonly IUserBloodTestHistoryProvider _userBloodTestHistoryProvider;
 
         public BloodTestController(IUserBloodTestProvider userBloodTestProvider,
-            IUserBloodTestSaver userBloodTestSaver )
+            IUserBloodTestSaver userBloodTestSaver, 
+            IDashboardAvailableTestsProvider dashboardAvailableTestsProvider,
+            IUserBloodTestHistoryProvider userBloodTestHistoryProvider)
         {
             _userBloodTestProvider = userBloodTestProvider;
             _userBloodTestSaver = userBloodTestSaver;
+            _dashboardAvailableTestsProvider = dashboardAvailableTestsProvider;
+            _userBloodTestHistoryProvider = userBloodTestHistoryProvider;
         }
 
         public async Task<IActionResult> New(int bloodTestId)
@@ -29,6 +38,13 @@ namespace HealthStory.Web.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             await _userBloodTestSaver.SaveAsync(model, userId);       
             return RedirectToAction("Index", "Dashboard");
+        }
+
+        public async Task<ActionResult<List<DashboardBloodTestViewModel>>> History(int bloodTestId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var model = await _userBloodTestHistoryProvider.Get(bloodTestId, userId);
+            return View(model);
         }
     }
 }

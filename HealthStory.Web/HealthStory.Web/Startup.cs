@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using HealthStory.Web.Application.BloodTest.User.History;
 
 namespace HealthStory.Web
 {
@@ -44,6 +45,7 @@ namespace HealthStory.Web
             services.AddTransient<IDashboardAvailableTestsProvider, DashboardAvailableTestsProvider>();
             services.AddTransient<IUserBloodTestProvider, UserBloodTestProvider>();
             services.AddTransient<IUserBloodTestSaver, UserBloodTestSaver>();
+            services.AddTransient<IUserBloodTestHistoryProvider, UserBloodTestHistoryProvider>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

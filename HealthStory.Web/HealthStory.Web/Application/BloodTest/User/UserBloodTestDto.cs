@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace HealthStory.Web.Application.BloodTest.User
 {
@@ -7,6 +8,7 @@ namespace HealthStory.Web.Application.BloodTest.User
         public int BloodTestId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public DateTime CreateDate { get; set; }
         public List<UserBloodTestSubstanceDto> Substances { get; set; }
     }
 }

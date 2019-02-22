@@ -22,7 +22,9 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <input type="button" value="Add" onclick='window.location.href ="@Url.Action("New", "BloodTest", new { bloodTestId=item.BloodTestInfoId })";' />              
+                <input type="button" value="Add" onclick='window.location.href ="@Url.Action("New", "BloodTest", new { bloodTestId=item.BloodTestInfoId })";' />
+                <input type="button" value="History" onclick='window.location.href ="@Url.Action("History", "BloodTest", new { bloodTestId=item.BloodTestInfoId })";' />
+
             </td>
         </tr>
         }
