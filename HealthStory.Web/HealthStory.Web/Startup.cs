@@ -1,10 +1,5 @@
-﻿using HealthStory.Web.Application.AdminBloodTestInfo;
-using HealthStory.Web.Application.AdminSubstance;
-using HealthStory.Web.Application.AdminUnits;
-using HealthStory.Web.Application.BloodTestValue.User;
-using HealthStory.Web.Application.BloodTest.User;
-using HealthStory.Web.Application.Dashboard.AvailableTest;
-using HealthStory.Web.Application.Units.SelectList;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using HealthStory.Web.Entities;
 using HealthStory.Web.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -14,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using HealthStory.Web.Application.BloodTest.User.History;
+using System;
 
 namespace HealthStory.Web
 {
@@ -26,9 +21,10 @@ namespace HealthStory.Web
         }
 
         public IConfiguration Configuration { get; }
+        public IContainer ApplicationContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -36,18 +32,7 @@ namespace HealthStory.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            services.AddTransient<IAdminUnitService, AdminUnitService>();
-            services.AddTransient<IUnitSelectListProvider, UnitSelectListProvider>();
-            services.AddTransient<IAdminSubstanceInfoService, AdminSubstanceInfoService>();
-            services.AddTransient<IAdminBloodTestInfoService, AdminBloodTestInfoService>();
-            services.AddTransient<IAppUserBloodTestValueService, AppUserBloodTestValueService>();
-            services.AddTransient<IDashboardAvailableTestsProvider, DashboardAvailableTestsProvider>();
-            services.AddTransient<IUserBloodTestProvider, UserBloodTestProvider>();
-            services.AddTransient<IUserBloodTestSaver, UserBloodTestSaver>();
-            services.AddTransient<IUserBloodTestHistoryProvider, UserBloodTestHistoryProvider>();
-
-
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<HealthStoryContext>(options =>
@@ -56,6 +41,12 @@ namespace HealthStory.Web
             services.AddDefaultIdentity<AppUser>()
                 .AddEntityFrameworkStores<HealthStoryContext>();
 
+            var builder = new ContainerBuilder();
+            builder.Populate(services);
+            builder.RegisterImplementedInterfaces();
+            ApplicationContainer = builder.Build();
+
+            return new AutofacServiceProvider(ApplicationContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
