@@ -11,6 +11,7 @@ namespace HealthStory.Web.Entities
         public decimal Value { get; set; }
         public DateTime CreateDate { get; set; }
         public bool IsDeleted { get; set; }
+        public Guid Id { get; set; }
 
         public virtual AppUser AppUser { get; set; }
         public virtual SubstanceInfo SubstanceInfo { get; set; }

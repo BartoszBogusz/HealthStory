@@ -22,6 +22,7 @@ namespace HealthStory.Web.Application.BloodTest.User
         public async Task SaveAsync(UserBloodTestDto bloodTest, string appUserId)
         {
             var now = DateTime.Now;
+            var id = Guid.NewGuid();
             var appUserBloodTestValues = bloodTest.Substances
                 .Select(x => new Entities.AppUserBloodTestValue
                 {
@@ -29,7 +30,8 @@ namespace HealthStory.Web.Application.BloodTest.User
                     SubstanceInfoId = x.SubstanceInfoId,
                     BloodTestInfoId = bloodTest.BloodTestId,
                     Value = x.Value,
-                    CreateDate = now
+                    CreateDate = now,
+                    Id = id
                 }).ToList();
             await _context.AppUserBloodTestValues.AddRangeAsync(appUserBloodTestValues);
             await _context.SaveChangesAsync();

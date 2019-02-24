@@ -2,6 +2,7 @@
 using HealthStory.Web.Application.BloodTest.User.History;
 using HealthStory.Web.Application.Dashboard.AvailableTest;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -45,6 +46,25 @@ namespace HealthStory.Web.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var model = await _userBloodTestHistoryProvider.Get(bloodTestId, userId);
             return View(model);
+        }
+
+        public async Task<ActionResult<List<UserBloodTestSubstanceDto>>> Details(Guid id)
+        {
+            var model = await _userBloodTestHistoryProvider.GetAsync(id);
+            return View(model);
+        }
+
+        public async Task<ActionResult<List<UserBloodTestSubstanceDto>>> Edit(Guid id)
+        {
+            var model = await _userBloodTestHistoryProvider.GetAsync(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(UserBloodTestSubstanceDto model, Guid id)
+        {
+            await _userBloodTestHistoryProvider.UpdateAsync(model, id);
+            return RedirectToAction("Index");
         }
     }
 }

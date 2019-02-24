@@ -78,10 +78,10 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
             dbBloodTest.Name = bloodTest.Name;
             dbBloodTest.Description = bloodTest.Description;
 
-            var substancesInDb = _context.BloodTestsSubstancesInfo   
+            var substancesInDb = await _context.BloodTestsSubstancesInfo   
                 .Where(x => x.BloodTestInfoId == bloodTest.BloodTestId)
                 .Select(x => x.SubstanceInfoId)
-                .ToList();
+                .ToListAsync();
 
             var newSubstances = bloodTest.Substances.Select(x => x.SubstanceInfoId).ToList();
 
@@ -96,9 +96,9 @@ namespace HealthStory.Web.Application.AdminBloodTestInfo
 
             var toRemoveIds = substancesInDb.Except(newSubstances);
 
-            var toRemove = _context.BloodTestsSubstancesInfo
+            var toRemove = await _context.BloodTestsSubstancesInfo
                 .Where(x => toRemoveIds.Contains(x.SubstanceInfoId) && x.BloodTestInfoId == bloodTest.BloodTestId)
-                .ToList();
+                .ToListAsync();
 
             _context.BloodTestsSubstancesInfo.RemoveRange(toRemove);
             await _context.SaveChangesAsync();
