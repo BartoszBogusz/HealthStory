@@ -11,7 +11,6 @@ namespace HealthStory.Web.Application.BloodTest.User.History
     {
         Task<List<UserBloodTestDto>> Get(int bloodTestId, string userId);
         Task<List<UserBloodTestSubstanceDto>> GetAsync(Guid id);
-        Task UpdateAsync(UserBloodTestSubstanceDto model, Guid id);
     }
     public class UserBloodTestHistoryProvider : IUserBloodTestHistoryProvider
     {
@@ -56,22 +55,6 @@ namespace HealthStory.Web.Application.BloodTest.User.History
                 })
                 .ToListAsync();
              return subs;
-        }
-
-        public async Task UpdateAsync(UserBloodTestSubstanceDto model, Guid id)
-        {
-            //var subInDb = await _context.AppUserBloodTestValues
-            //    .Where(x => x.Id == id)
-            //    .Select(x => x.Value)
-            //    .ToListAsync();
-
-            //List<decimal> subInModel = new List<decimal>();
-            //foreach(var item in model.Substances)
-            //{
-            //    subInModel.Add(item.Value);
-            //}
-
-            await _context.SaveChangesAsync();
         }
     }
 }
